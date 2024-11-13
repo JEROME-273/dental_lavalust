@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"name": "Python",
+			"path": "../../../../Python"
+		},
+		{
+			"name": "Appdevprac",
+			"path": "../../../../Appdevprac"
+		},
+		{
+			"name": "Musicplayer",
+			"path": "../../../../Musicplayer"
+		},
+		{
+			"name": "LSCLOTHES",
+			"path": "../../../../LSCLOTHES"
+		},
+		{
+			"name": "appdevWEB",
+			"path": "../../../../appdevWEB"
+		},
+		{
+			"path": "../../../../GKDLe-commerce"
+		},
+		{
+			"path": "../../../../lavalust"
+		},
+		{
+			"path": "../../../../lavalust2"
+		},
+		{
+			"path": "../../../../dental_clinic_management_system01"
+		},
+		{
+			"path": "../../.."
+		}
+	],
+	"settings": {}
+}
