@@ -112,6 +112,17 @@ class Lauth {
 		}
 	}
 
+	public function get_user_role($user_id) {
+		$row = $this->LAVA->db
+						->table('users')
+						->select('role')
+						->where('id', $user_id)
+						->limit(1)
+						->get();
+		return $row ? $row['role'] : 'user';
+	}
+	
+
 	/**
 	 * Change Password
 	 *

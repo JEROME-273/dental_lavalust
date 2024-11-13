@@ -21,20 +21,29 @@ class Auth extends Controller {
     public function login() {
         if($this->form_validation->submitted()) {
             $email = $this->io->post('email');
-			$password = $this->io->post('password');
+            $password = $this->io->post('password');
             $data = $this->lauth->login($email, $password);
+            
             if(empty($data)) {
-				$this->session->set_flashdata(['is_invalid' => 'is-invalid']);
+                $this->session->set_flashdata(['is_invalid' => 'is-invalid']);
                 $this->session->set_flashdata(['err_message' => 'These credentials do not match our records.']);
-			} else {
-				$this->lauth->set_logged_in($data);
-			}
-            redirect('auth/login');
+                redirect('auth/login');
+            } else {
+                $this->lauth->set_logged_in($data);
+                
+                // Check the user role and redirect accordingly
+                $role = $this->lauth->get_user_role($data); // Assuming `get_user_role` returns 'admin' or 'user'
+                if ($role === 'admin') {
+                    redirect('adminpage'); // Redirect to the admin page
+                } else {
+                    redirect('home'); // Redirect to the homepage for regular users
+                }
+            }
         } else {
             $this->call->view('auth/login');
         }
-        
     }
+    
 
     public function register() {
 
