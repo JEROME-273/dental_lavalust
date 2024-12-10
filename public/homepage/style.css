@@ -1,0 +1,258 @@
+/* General styling */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+.hero-header {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  color: #fff; /* Default text color */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* General text shadow for contrast */
+}
+
+.hero-header h3 {
+  font-family: "Arial Black", sans-serif; /* Stronger font style */
+  font-size: 1.25rem; /* Slightly larger font size */
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Strong shadow for better visibility */
+  letter-spacing: 1px; /* Adds spacing for elegance */
+  margin-bottom: 1rem; /* Space below the heading */
+}
+
+.hero-header h1 {
+  font-family: "Arial Black", sans-serif; /* Strong font for emphasis */
+  font-size: 3rem; /* Adjust as needed */
+  font-weight: bold;
+  color: #ffffff; /* Pure white for contrast */
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8); /* Deep shadow for readability */
+  margin-bottom: 2rem; /* Space below the heading */
+}
+
+.hero-header a.btn {
+  font-size: 1.25rem; /* Button text size */
+  color: #ffffff;
+  border-color: #ffffff;
+  background: rgba(0, 0, 0, 0.3); /* Semi-transparent black for elegance */
+  text-shadow: none; /* No shadow for buttons */
+  transition: all 0.3s ease;
+}
+
+.hero-header a.btn:hover {
+  background: rgba(255, 255, 255, 0.3); /* Light hover effect */
+  color: #000; /* Dark text on hover */
+}
+
+/* Title styling */
+h2 {
+  font-size: 3rem; /* Larger title */
+  color: #0056b3; /* Dental blue theme */
+  margin-bottom: 40px;
+}
+
+/* Services container */
+.services-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px; /* Space between cards */
+  padding: 40px;
+  max-width: 1400px; /* Center content for large screens */
+  margin: 0 auto;
+}
+
+/* Individual service cards */
+.service-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  overflow: hidden;
+  width: 30%; /* Larger width */
+  min-width: 300px;
+  max-width: 400px; /* Keeps size balanced */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Card image */
+.service-card img {
+  width: 100%;
+  height: 250px; /* Larger images */
+  object-fit: cover; /* Ensures consistent image display */
+}
+
+/* Card body */
+.card-body {
+  padding: 30px;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 2rem; /* Larger text for titles */
+  color: #007bff; /* Dental blue */
+  margin-bottom: 15px;
+}
+
+.card-text {
+  font-size: 1.2rem; /* Bigger text for readability */
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* Button styling */
+.services-row + .see-more-btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.see-more-btn .custom-btn {
+  background-color: #007bff; /* Dental blue */
+  color: #fff;
+  font-size: 1.5rem; /* Larger button text */
+  text-decoration: none; /* Remove underline from link */
+  border: none;
+  padding: 15px 30px; /* Bigger button */
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.3s;
+  display: inline-block; /* Ensures it behaves like a button */
+  text-align: center; /* Centers the text inside the button */
+}
+
+.see-more-btn .custom-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-5px);
+}
+
+/* Responsive design - adjust only for very small screens */
+@media (max-width: 768px) {
+  .service-card {
+    width: 80%; /* Keep a reasonable size on smaller devices */
+    min-width: unset; /* Remove restrictions */
+  }
+
+  .card-text {
+    font-size: 1rem; /* Slightly smaller text for smaller screens */
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Send Messages Section */
+#message-container {
+  background: linear-gradient(
+    to bottom right,
+    #87cefa,
+    #00bfff
+  ); /* Light blue gradient */
+  height: 600px; /* Adjust the height to a medium size */
+}
+
+/* Feedback */
+.testimonial-carousel .testimonial-item {
+  background: lightcyan; /* Semi-transparent white background */
+  padding: 30px;
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+.testimonial-item h3 {
+  font-size: 1.8rem; /* Larger for emphasis */
+  color: #333;
+  font-family: "Roboto", sans-serif; /* Modern font */
+}
+
+.testimonial-item h6 {
+  font-size: 1.2rem; /* Slightly larger for emphasis */
+  color: #007bff;
+  font-weight: 600; /* Bold for emphasis */
+}
+
+.testimonial-item p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.5; /* Improved readability */
+}
+/* Carousel navigation controls */
+.owl-nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.owl-nav button {
+  background: linear-gradient(
+    45deg,
+    #00c6ff,
+    #007bff
+  ); /* Gradient button background */
+  border: none;
+  color: #fff;
+  padding: 12px 25px; /* Adjusted padding for larger buttons */
+  border-radius: 50%; /* Rounded icon buttons */
+  margin: 0 10px;
+  font-size: 1.5rem; /* Larger icons */
+  font-family: "Roboto", sans-serif; /* Modern font */
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.5); /* Glowing effect */
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+  cursor: pointer;
+}
+
+.owl-nav button i {
+  font-size: 1.5rem; /* Adjust icon size */
+}
+
+.owl-nav button:hover {
+  background: linear-gradient(
+    45deg,
+    #0056b3,
+    #0094ff
+  ); /* Darker gradient on hover */
+  transform: translateY(-3px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.7); /* Enhanced glowing effect on hover */
+}
+
+/* Contact Section */
+.container .text-center {
+  margin-bottom: 30px;
+}
+
+.row .bg-light {
+  border: 1px solid #ddd;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.row .bg-light:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.row .fa {
+  font-size: 2rem;
+}
+
+.row h6 {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+/* Google Map Styling */
+iframe {
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}

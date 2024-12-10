@@ -1,0 +1,49 @@
+/* assets/css/style.css */
+
+/* General Styling */
+body {
+  background-color: #f0f4f8;
+  color: #333;
+  font-family: "Arial", sans-serif;
+  margin-bottom: 50px;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #004b63;
+  color: #f0f4f8;
+  text-align: center;
+  position: fixed; /* Changed from absolute to fixed */
+  padding: 10px 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000; /* Optional: to ensure it stays above other elements */
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar .nav-link {
+    padding-left: 20px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  footer {
+    font-size: 14px; /* Slightly smaller font for smaller screens */
+    padding: 8px 0; /* Reduced padding */
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    font-size: 12px; /* Smaller font for mobile devices */
+    padding: 6px 0; /* Reduced padding for smaller screens */
+  }
+}

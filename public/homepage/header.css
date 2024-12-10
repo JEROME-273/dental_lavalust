@@ -1,0 +1,79 @@
+/* General Navbar Styling */
+.navbar {
+  background-color: #00274d;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+}
+
+/* Navbar Brand Styling */
+.navbar .navbar-brand {
+  font-family: "Jost", sans-serif;
+  font-size: 28px; /* Larger font size */
+  font-weight: 700; /* Bold font */
+  color: #00aaff; /* Light blue for branding */
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.navbar .navbar-brand:hover {
+  color: #66ccff; /* Slightly lighter blue on hover */
+}
+
+/* Navbar Links Styling */
+.navbar-nav {
+  margin-left: auto; /* Move links away from the brand */
+  display: flex;
+  justify-content: center; /* Center the links horizontally */
+  gap: 20px; /* Add spacing between links */
+}
+
+.navbar-nav .nav-link {
+  font-family: "Jost", sans-serif;
+  font-size: 18px; /* Larger font size */
+  font-weight: 700; /* Bold font */
+  color: #ffffff; /* White text for contrast */
+  padding: 10px 15px; /* Adjusted padding for better spacing */
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #00aaff; /* Light blue on hover or active */
+}
+
+/* Remove underline effect for specific buttons (Login and Admin) */
+.navbar-nav .btn-outline-light {
+  font-family: "Jost", sans-serif;
+  font-size: 16px; /* Adjusted for consistency */
+  font-weight: 700; /* Bold font */
+  border: 2px solid #00aaff; /* Light blue border */
+  color: #ffffff; /* White text */
+  padding: 8px 20px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .btn-outline-light:hover {
+  background-color: #00aaff; /* Light blue background */
+  color: #ffffff; /* White text */
+}
+
+/* Utility Variables */
+:root {
+  --primary: #00aaff; /* Light blue */
+  --dark: #00274d; /* Dark blue */
+  --light: #66ccff; /* Light cyan */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 8px 10px;
+  }
+}
