@@ -4,7 +4,7 @@ include APP_DIR.'views/includes/users/header.php';
 ?>
 <body>
 <!-- Hero Start -->
-<div class="container-fluid bg-primary py-5 mb-5 hero-header" style="background-image: url('../assets/images/teeth.jpg'); background-size: cover; background-position: center;">
+<div class="container-fluid bg-primary py-5 mb-5 hero-header" style="background-image: url('https://i.ibb.co/rsfYR4B/teeth.jpg'); background-size: cover; background-position: center;">
 <div class="container py-5">
     <div class="row justify-content-start">
         <div class="col-lg-8 text-center text-lg-start">
@@ -26,7 +26,7 @@ include APP_DIR.'views/includes/users/header.php';
         <div class="row gx-5">
             <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
                 <div class="position-relative h-100">
-                    <img class="position-absolute w-100 h-100 rounded" src="../assets/images/cleaning.jpg" style="object-fit: cover;">
+                    <img class="position-absolute w-100 h-100 rounded" src="https://i.ibb.co/xYRhRwh/cleaning.webp" style="object-fit: cover;">
                 </div>
             </div>
             <div class="col-lg-7">
@@ -45,21 +45,21 @@ include APP_DIR.'views/includes/users/header.php';
 <h2 class="text-center my-4">Our Services</h2>
 <div class="services-row">
 <div class="service-card">
-    <img src="../assets/images/dental2.jpg" alt="Whitening">
+    <img src="https://i.ibb.co/QbGCLTb/dental2.jpg" alt="Whitening">
     <div class="card-body">
         <h5 class="card-title">Whitens</h5>
         <p class="card-text">Professional cleaning to maintain your oral health.</p>
     </div>
 </div>
 <div class="service-card">
-    <img src="../assets/images/dental3.jpg" alt="Filling">
+    <img src="https://i.ibb.co/pPnjqh5/dental3.jpg" alt="Filling">
     <div class="card-body">
         <h5 class="card-title">Saving</h5>
         <p class="card-text">Restore your teeth with high-quality filling materials.</p>
     </div>
 </div>
 <div class="service-card">
-    <img src="../assets/images/Dental1.jpg" alt="Whitening Treatment">
+    <img src="https://i.ibb.co/8rSmb33/Dental1.jpg" alt="Whitening Treatment">
     <div class="card-body">
         <h5 class="card-title">Equipped</h5>
         <p class="card-text">Get a brighter smile with our whitening treatments.</p>

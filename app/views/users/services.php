@@ -133,7 +133,7 @@ iframe {
 <div class="services-container">
     <!-- Dental Checkup -->
     <div class="service-card">
-        <img src="../assets/images/Dental1.jpg" alt="Dental Checkup">
+        <img src="https://i.ibb.co/8rSmb33/Dental1.jpg" alt="Dental Checkup">
         <div class="card-body">
             <h5 class="card-title">Dental Checkup</h5>
             <p class="card-text">Comprehensive dental checkups to ensure optimal oral health.</p>
@@ -142,7 +142,7 @@ iframe {
 
     <!-- Teeth Cleaning -->
     <div class="service-card">
-        <img src="../assets/images/cleaning.jpg" alt="Teeth Cleaning">
+        <img src="https://i.ibb.co/xYRhRwh/cleaning.webp" alt="Teeth Cleaning">
         <div class="card-body">
             <h5 class="card-title">Teeth Cleaning</h5>
             <p class="card-text">Professional teeth cleaning to remove plaque and tartar buildup.</p>
@@ -151,7 +151,7 @@ iframe {
 
     <!-- Filling -->
     <div class="service-card">
-        <img src="../assets/images/filling.jpg" alt="Filling">
+        <img src="https://i.ibb.co/XCRqgJQ/filling.jpg" alt="Filling">
         <div class="card-body">
             <h5 class="card-title">Filling</h5>
             <p class="card-text">Restorative fillings to repair cavities and restore tooth function.</p>
@@ -160,7 +160,7 @@ iframe {
 
     <!-- Root Canal Treatment -->
     <div class="service-card">
-        <img src="../assets/images/rootcanal.jpg" alt="Root Canal Treatment">
+        <img src="https://i.ibb.co/7gPnkN3/rootcanal.jpg" alt="Root Canal Treatment">
         <div class="card-body">
             <h5 class="card-title">Root Canal Treatment</h5>
             <p class="card-text">Endodontic treatment to save and preserve your natural tooth.</p>
@@ -169,7 +169,7 @@ iframe {
 
     <!-- Teeth Whitening -->
     <div class="service-card">
-        <img src="../assets/images/dental2.jpg" alt="Teeth Whitening">
+        <img src="https://i.ibb.co/QbGCLTb/dental2.jpg" alt="Teeth Whitening">
         <div class="card-body">
             <h5 class="card-title">Teeth Whitening</h5>
             <p class="card-text">Effective whitening treatments for a brighter, whiter smile.</p>
@@ -178,7 +178,7 @@ iframe {
 
     <!-- Orthodontics -->
     <div class="service-card">
-        <img src="../assets/images/ortho.jpg" alt="Orthodontics">
+        <img src="https://i.ibb.co/TKp1bZM/ortho.webp" alt="Orthodontics">
         <div class="card-body">
             <h5 class="card-title">Orthodontics</h5>
             <p class="card-text">Corrective orthodontic treatments to straighten teeth and improve bite.</p>
@@ -187,7 +187,7 @@ iframe {
 
     <!-- Extraction -->
     <div class="service-card">
-        <img src="../assets/images/extraction.jpg" alt="Extraction">
+        <img src="https://i.ibb.co/7z4593m/extraction.jpg" alt="Extraction">
         <div class="card-body">
             <h5 class="card-title">Extraction</h5>
             <p class="card-text">Safe and painless extractions for problematic or damaged teeth.</p>
@@ -196,7 +196,7 @@ iframe {
 
     <!-- Bracing -->
     <div class="service-card">
-        <img src="../assets/images/braces.jpg" alt="Bracing">
+        <img src="https://i.ibb.co/7X1H7ts/braces.jpg" alt="Bracing">
         <div class="card-body">
             <h5 class="card-title">Bracing</h5>
             <p class="card-text">Align your teeth and improve your smile with quality bracing solutions.</p>
@@ -205,7 +205,7 @@ iframe {
 
     <!-- Gum Treatment -->
     <div class="service-card">
-        <img src="../assets/images/Deep-Gum.jpg" alt="Gum Treatment">
+        <img src="https://i.ibb.co/qR1BSyY/Deep-Gum.jpg" alt="Gum Treatment">
         <div class="card-body">
             <h5 class="card-title">Gum Treatment</h5>
             <p class="card-text">Effective treatments to maintain healthy gums and prevent periodontal disease.</p>
@@ -214,7 +214,7 @@ iframe {
 </div>
 
 <div class="text-center">
-    <a href="../views/appointment.php" class="book-now-btn">BOOK NOW</a>
+    <a href="<?=site_url('appointment');?>" class="book-now-btn">BOOK NOW</a>
 </div>
 
 <!-- Contact Start -->

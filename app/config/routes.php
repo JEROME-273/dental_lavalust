@@ -56,16 +56,22 @@ $router->group('/auth', function() use ($router){
 
 //routes sa mga users
 $router->match('/appointment', 'users::Appoint', array('get','post'));
-$router->match('/appointments', 'users::Create_appointment', ['get', 'post']);
+$router->match('/appointments', 'users::create_appoint', ['get', 'post']);
 $router->match('/services', 'users::service', array('get', 'post'));
 $router->match('/econsultation', 'users::consult', array('get','post'));
-$router->match('/feedback', 'users::feed', array('get','post'));
+// $router->match('/feedback', 'users::feed', array('get','post'));
 $router->match('/FAQs', 'users::faqs' , array('get','post'));
 $router->match('/message', 'users::message' , array('get','post'));
+$router->match('/handle-econsultation', 'users::handleFormSubmission', ['GET', 'POST']);
+$router->match('/user-profile', 'users::Profile',array('get','post'));
 
 
 // routes sa mga admin
-$router->get('/adminpage', 'admin');
+$router->match('/adminpage', 'admin', array('get','post'));
 $router->match('/reports', 'admin::report', array('get', 'post'));
 $router->match('/users', 'admin::users', array('get', 'post'));
 $router->match('/feeds', 'admin::feeds', array('get', 'post'));
+$router->match('/admin/update_status', 'Admin::update_status', array('POST'));
+
+
+

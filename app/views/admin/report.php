@@ -26,7 +26,9 @@
     </style>
 </head>
 <body>
-    
+<?php 
+    include APP_DIR.'views/includes/admin/header.php';
+    ?>
 
     <div class="container mt-5">
         <div class="mb-4">

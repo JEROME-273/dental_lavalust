@@ -14,19 +14,19 @@
         <h3>Appointments</h3>
 
         <!-- Search Form -->
-        <form method="POST" class="mb-4">
+        <form method="POST" action="<?= site_url('adminpage') ?>" class="mb-4">
             <div class="row">
                 <div class="col-md-4">
                     <input type="text" name="search_patient" class="form-control" placeholder="Search by Patient Name" 
-                        value="<?= isset($_POST['search_patient']) ? htmlspecialchars($_POST['search_patient']) : '' ?>">
+                        value="<?= isset($search_patient) ? htmlspecialchars($search_patient) : '' ?>">
                 </div>
                 <div class="col-md-4">
                     <input type="text" name="search_service" class="form-control" placeholder="Search by Service" 
-                        value="<?= isset($_POST['search_service']) ? htmlspecialchars($_POST['search_service']) : '' ?>">
+                        value="<?= isset($search_service) ? htmlspecialchars($search_service) : '' ?>">
                 </div>
                 <div class="col-md-4">
                     <input type="text" name="search_status" class="form-control" placeholder="Search by Status" 
-                        value="<?= isset($_POST['search_status']) ? htmlspecialchars($_POST['search_status']) : '' ?>">
+                        value="<?= isset($search_status) ? htmlspecialchars($search_status) : '' ?>">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Search</button>
@@ -49,16 +49,15 @@
                 <?php if (!empty($appointments)): ?>
                     <?php foreach ($appointments as $appointment): ?>
                         <tr>
-                            <td><?= htmlspecialchars($appointment['appointment_id']) ?></td>
-                            <td><?= htmlspecialchars($appointment['first_name'] . ' ' . $appointment['last_name']) ?></td>
-                            <td><?= date('Y-m-d H:i', strtotime($appointment['appointment_date'])) ?></td>
+                            <td><?= htmlspecialchars($appointment['appoint_id']) ?></td>
+                            <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
+                            <td><?= date('Y-m-d H:i', strtotime($appointment['appointData'])) ?></td>
                             <td><?= htmlspecialchars($appointment['service_name']) ?></td>
-                            <td><?= htmlspecialchars($appointment['status']) ?></td>
+                            <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
                             <td>
-                                <a href="mark_done.php?id=<?= htmlspecialchars($appointment['appointment_id']) ?>" class="btn btn-success btn-sm">Done</a>
-                                <a href="mark_postponed.php?id=<?= htmlspecialchars($appointment['appointment_id']) ?>" class="btn btn-warning btn-sm">Postponed</a>
-                                <a href="mark_followup.php?id=<?= htmlspecialchars($appointment['appointment_id']) ?>" class="btn btn-info btn-sm">Follow Up</a>
-                                <a href="edit_appointment.php?id=<?= htmlspecialchars($appointment['appointment_id']) ?>" class="btn btn-primary btn-sm">Edit</a>
+                                <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
+                                <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
+                                <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -70,5 +69,36 @@
             </tbody>
         </table>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.update-status').on('click', function() {
+                var appointmentId = $(this).data('id');
+                var status = $(this).data('status');
+
+                $.ajax({
+                    url: '<?= site_url('admin/update_status') ?>', // Controller method to handle the request
+                    type: 'POST',
+                    data: {
+                        id: appointmentId,
+                        status: status
+                    },
+                    success: function(response) {
+                        var res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            $('#status-' + appointmentId).text(status);
+                            // alert(res.message);
+                        } else {
+                            // alert(res.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error updating the status.');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -33,13 +33,10 @@
                     <a class="nav-link" href="<?=site_url('appointment');?>">Book Appointment</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<?=site_url('feedback');?>">Feedback</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="<?=site_url('FAQs');?>">FAQs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><?=html_escape(get_username(get_user_id()));?></a>
+                    <a class="nav-link" href="<?=site_url('user-profile');?>"><?=html_escape(get_username(get_user_id()));?></a>
                 </li>
                 <li class="nav-item">   
                     <a class="nav-link" href="<?=site_url('auth/logout');?>" onclick="return confirmLogout();">Logout</a>

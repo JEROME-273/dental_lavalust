@@ -2,52 +2,58 @@
 include APP_DIR.'views/includes/users/header.php';
 ?>
 <body>
-<h2>Book an Appointment</h2>
-<form method="POST" action="<?=site_url('appointment');?>">
-<?php flash_alert(); ?>
-    <div class="mb-3">
-        <label for="first_name" class="form-label">First Name</label>
-        <input type="text" class="form-control" id="first_name" name="first_name" required>
-    </div>
-    <div class="mb-3">
-        <label for="last_name" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="last_name" name="last_name" required>
-    </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email">
-    </div>
-    <div class="mb-3">
-        <label for="phone" class="form-label">Phone</label>
-        <input type="text" class="form-control" id="phone" name="phone" required>
-    </div>
-    <div class="mb-3">
-        <label for="Address" class="form-label">Address</label>
-        <input type="text" class="form-control" id="Address" name="Address" required>
-    </div>
-    <div class="mb-3">
-        <label for="appointment_date" class="form-label">Appointment Date</label>
-        <input type="datetime-local" class="form-control" id="appointment_date" name="appointment_date" required>
-    </div>
-    <div class="mb-3">
-        <label for="service_id" class="form-label">Select Service</label>
-        <select class="form-select" id="service_id" name="service_id" required>
-            <option value="" disabled selected>Select a service</option>
-            <?php if (!empty($services) && is_array($services)): ?>
-                <?php foreach ($services as $service): ?>
-                    <option value="<?php echo htmlspecialchars($service['service_id']); ?>">
-                        <?php echo htmlspecialchars($service['service_name']); ?>
-                    </option>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <option value="" disabled>No services available</option>
-            <?php endif; ?>
-        </select>
-    </div>
+<h1>Book an Appointment</h1>
+<div class="container">
+    <form method="POST" action="<?=site_url('appointments');?>">
+        <?php flash_alert(); ?>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="Address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="Address" name="Address" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="appointment_date" class="form-label">Appointment Date</label>
+                <input type="datetime-local" class="form-control" id="appointment_date" name="appointment_date" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="service_id" class="form-label">Select Service</label>
+                <select class="form-select" id="service_id" name="service_id" required>
+                    <option value="" disabled selected>Select a service</option>
+                    <?php if (!empty($services) && is_array($services)): ?>
+                        <?php foreach ($services as $service): ?>
+                            <option value="<?php echo htmlspecialchars($service['service_id']); ?>">
+                                <?php echo htmlspecialchars($service['service_name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <option value="" disabled>No services available</option>
+                    <?php endif; ?>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Book Appointment</button>
+    </form>
+</div>
 
+<div class="container">
 
-    <button type="submit" class="btn btn-primary">Book Appointment</button>
-</form>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -86,7 +92,7 @@ include APP_DIR.'views/includes/users/header.php';
                 return;
             } else {
                 alert('Please select a time between 8 AM - 11 AM or 1 PM - 5 PM.');
-                this.value = ''; // Clear the input
+ this.value = ''; // Clear the input
             }
         });
     });
@@ -95,6 +101,6 @@ include APP_DIR.'views/includes/users/header.php';
 
 <?php
     include APP_DIR.'views/includes/users/footer.php';
-    ?> 
+?> 
 
 </html>

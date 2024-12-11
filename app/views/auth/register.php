@@ -6,18 +6,64 @@
     <title>Register</title>
     <link rel="icon" type="image/png" href="<?=base_url();?>public/img/favicon.ico"/>
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Styles -->
-    <link href="<?=base_url();?>public/css/main.css" rel="stylesheet">
-    <link href="<?=base_url();?>public/css/style.css" rel="stylesheet">
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        button {
+            background-color: #007bff;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h4 {
+            margin-top: 1.5rem;
+            color: #495057;
+        }
+
+        .login-link {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <?php
-    include APP_DIR.'views/templates/nav_auth.php';
-    ?>
-    <main class="py-4">
+    <main class="py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -26,135 +72,71 @@
                         <div class="card-body">
                             <?php flash_alert(); ?>
                             <form id="regForm" method="POST" action="<?=site_url('auth/register');?>">
-                            <?php csrf_field(); ?>
-                                <div class="row mb-3">
-                                    <h4>Personal Information</h4>
-                                    <label for="username" class="col-md-4 col-form-label text-md-end">Username</label>
-                                    <div class="col-md-6">
-                                        <input id="username" type="text" class="form-control " name="username" placeholder="meow" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="email" class="col-md-4 col-form-label text-md-end">Email Address</label>
-                                    <div class="col-md-6">
-                                        <input id="email" type="email" class="form-control" name="email" value="" placeholder="@gmail.com" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="first_name" class="col-md-4 col-form-label text-md-end">First Name</label>
-                                    <div class="col-md-6">
-                                        <input id="firstname" type="text" class="form-control" name="first_name" placeholder="e.g jerome" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="last_name" class="col-md-4 col-form-label text-md-end">Last Name</label>
-                                    <div class="col-md-6">
-                                        <input id="lastname" type="text" class="form-control" name="last_name" placeholder="e.g martinez" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for=phone_number" class="col-md-4 col-form-label text-md-end">Contact</label>
-                                    <div class="col-md-6">
-                                        <input id="phone_number" type="text" class="form-control" name="phone_number" placeholder="e.g +6399999999" maxlength="11" pattern="^\+639\d{9}$" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <h4>Address</h4>
-                                    <label for="street" class="col-md-4 col-form-label text-md-end">street</label>
-                                    <div class="col-md-6">
-                                        <input id="street" type="text" class="form-control" name="street" placeholder="malungay" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="barangay" class="col-md-4 col-form-label text-md-end">Barangay</label>
-                                    <div class="col-md-6">
-                                        <input id="barangay" type="text" class="form-control" name="barangay" placeholder="nacoco" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="city" class="col-md-4 col-form-label text-md-end">City</label>
-                                    <div class="col-md-6">
-                                        <input id="city" type="text" class="form-control" name="city" placeholder="city / municipality" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="zip_code" class="col-md-4 col-form-label text-md-end">Zip code</label>
-                                    <div class="col-md-6">
-                                        <input id="city" type="text" class="form-control" name="zip_code" placeholder="5200" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
-                                    <div class="col-md-6">
-                                        <input id="password" type="password" class="form-control" name="password" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label for="password_confirmation" class="col-md-4 col-form-label text-md-end">Confirm Password</label>
+                                <?php csrf_field(); ?>
 
-                                    <div class="col-md-6">
-                                        <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
-                                    </div>
+                                <h4>Personal Information</h4>
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input id="username" type="text" class="form-control" name="username" placeholder="Enter your username" required>
                                 </div>
-                                <div class="row mb-0">
-                                    <div class="col-md-6 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            Register
-                                        </button>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input id="email" type="email" class="form-control" name="email" placeholder="example@gmail.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    <input id="first_name" type="text" class="form-control" name="first_name" placeholder="Enter your first name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Enter your last name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone_number" class="form-label">Contact</label>
+                                    <input id="phone_number" type="text" class="form-control" name="phone_number" placeholder="+639999999999" pattern="^\+639\d{9}$" required>
+                                </div>
+
+                                <h4>Address</h4>
+                                <div class="mb-3">
+                                    <label for="street" class="form-label">Street</label>
+                                    <input id="street" type="text" class="form-control" name="street" placeholder="Enter your street" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="barangay" class="form-label">Barangay</label>
+                                    <input id="barangay" type="text" class="form-control" name="barangay" placeholder="Enter your barangay" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="city" class="form-label">City</label>
+                                    <input id="city" type="text" class="form-control" name="city" placeholder="Enter your city or municipality" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="zip_code" class="form-label">Zip Code</label>
+                                    <input id="zip_code" type="text" class="form-control" name="zip_code" placeholder="Enter your zip code" required>
+                                </div>
+
+                                <h4>Account Security</h4>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input id="password" type="password" class="form-control" name="password" placeholder="Enter your password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                    <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" placeholder="Re-enter your password" required>
+                                </div>
+
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Register</button>
                                 </div>
                             </form>
+                            <div class="login-link">
+                                Already have an account? <a href="<?=site_url('auth/login');?>">Log in here</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
-    <script>
-        $(function() {
-            var regForm = $("#regForm")
-                if(regForm.length) {
-                    regForm.validate({
-                        rules: {
-                            email: {
-                                required: true,
-                            },
-                            password: {
-                                required: true,
-                                minlength: 8
-                            },
-                            password_confirmation: {
-                                required: true,
-                                minlength: 8
-                            },
-                            username: {
-                                required: true,
-                                minlength: 5,
-                                maxlength: 20
-                            }
-                        },
-                        messages: {
-                            email: {
-                                required: "Please input your email address.",                            
-                            },
-                            password: {
-                                required: "Please input your password",
-                                minlength: jQuery.validator.format("Password must be atleast {0} characters.")
-                            },
-                            password_confirmation: {
-                                required: "Please input your password",
-                                minlength: jQuery.validator.format("Password must be atleast {0} characters.")
-                            },
-                            username: {
-                                required: "Please input your username.",                            
-                            }
-                        },
-                    })
-                }
-        })
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
