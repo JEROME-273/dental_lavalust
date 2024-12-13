@@ -59,11 +59,15 @@ $router->match('/appointment', 'users::Appoint', array('get','post'));
 $router->match('/appointments', 'users::create_appoint', ['get', 'post']);
 $router->match('/services', 'users::service', array('get', 'post'));
 $router->match('/econsultation', 'users::consult', array('get','post'));
+$router->get('/view-appointments', 'Users::viewAppointments');
+
+
 // $router->match('/feedback', 'users::feed', array('get','post'));
 $router->match('/FAQs', 'users::faqs' , array('get','post'));
 $router->match('/message', 'users::message' , array('get','post'));
 $router->match('/handle-econsultation', 'users::handleFormSubmission', ['GET', 'POST']);
-$router->match('/user-profile', 'users::Profile',array('get','post'));
+$router->match('/user-profile', 'Users::Profile', array('GET'));
+$router->match('/update-profile', 'Users::update_profile', array('POST'));
 
 
 // routes sa mga admin

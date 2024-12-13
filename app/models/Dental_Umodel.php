@@ -19,18 +19,13 @@ class Dental_uModel extends Model {
     }
 
     // Making an appointment
-    public function makeAppoint($first_name, $last_name, $email, $phone, $address, $appointment_date, $service_id) {
-        $data = array(
-            'fname' => $first_name,
-            'lname' => $last_name,
-            'email' => $email,
-            'phone' => $phone,
-            'address' => $address,
-            'appointData' => $appointment_date,
-            'service_id' => $service_id
-        );
-
-        return $this->db->table('appoint')->insert($data);
+    public function makeAppoint($data) {
+        try {
+            return $this->db->table('appoint')->insert($data);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
+        }
     }
 
     // Fetching all appointments
@@ -149,12 +144,23 @@ class Dental_uModel extends Model {
         return $prescription;
     }
 
-    public function getCurrentUser(){
-        $userId = $_SESSION['user_id'] ?? null;
+    public function getCurrentUser($user_id) {
         return $this->db->table('users')
-            ->select('username,email,password,first_name,last_name,address,street,barangay,city,zip_code,phone_number')
-            // ->select('firstname, lastname, email, gender, created_at, phone, address, dob, class')
-            ->where(['id' => $userId])
+            ->where('id', $user_id)
+            ->get();
+    }
+
+    // Updating user data
+    public function updateUser($user_id, $data) {
+        return $this->db->table('users')
+            ->where('id', $user_id)
+            ->update($data);
+    }
+    public function getUserAppointments($user_id) {
+        return $this->db->table('appoint')
+            ->select('appoint.*, services.service_name')
+            ->join('services', 'appoint.service_id = services.service_id')
+            ->where('appoint.user_id', $user_id)
             ->get_all();
     }
     

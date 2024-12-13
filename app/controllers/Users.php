@@ -15,25 +15,31 @@ class Users extends Controller {
         $this->call->view('users/appointments', $data);
     }
     
-    public function create_appoint(){
-        if($this->form_validation->submitted()){
-            $first_name = $this->io->post('first_name');
-            $last_name = $this->io->post('last_name');
-            $email = $this->io->post('email');
-            $phone = $this->io->post('phone');
-            $Address = $this->io->post('Address');
-            $appointment_date = $this->io->post('appointment_date');
-            $service_id = $this->io->post('service_id');
-
-            if ($this->Dental_uModel->makeAppoint($first_name,$last_name,$email,$phone,$Address,$appointment_date,$service_id)) {
+    public function create_appoint() {
+        if($this->form_validation->submitted()) {
+            $data = array(
+                'user_id' => $this->lauth->get_user_id(),
+                'fname' => $this->io->post('first_name'),
+                'lname' => $this->io->post('last_name'),
+                'email' => $this->io->post('email'),
+                'phone' => $this->io->post('phone'),
+                'address' => $this->io->post('Address'),
+                'appointData' => $this->io->post('appointment_date'),
+                'service_id' => $this->io->post('service_id'),
+                'status' => 'pending'
+            );
+    
+            if ($this->Dental_uModel->makeAppoint($data)) {
                 set_flash_alert('success', 'Appointment Set!');
                 redirect('home');
+            } else {
+                set_flash_alert('danger', 'Failed to create appointment');
+                redirect('users/appointments');
             }
         } else {
             set_flash_alert('danger', $this->form_validation->errors());
             redirect('users/appointments');
         }
-
     }
     
     public function service(){
@@ -83,8 +89,43 @@ class Users extends Controller {
     }
 
     public function Profile(){
-       $data = $this->Dental_uModel->getCurrentUser();
+        $user_id = $this->lauth->get_user_id(); // Assuming you have a method to get the logged-in user ID
+        $data['user'] = $this->Dental_uModel->getCurrentUser($user_id);
         $this->call->view('users/profile', $data);
+    }
+
+    public function update_profile(){
+        if($this->form_validation->submitted()){
+            $user_id = $this->lauth->get_user_id();
+            $data = [
+                'username' => $this->io->post('username'),
+                'first_name' => $this->io->post('first_name'),
+                'last_name' => $this->io->post('last_name'),
+                'email' => $this->io->post('email'),
+                'phone_number' => $this->io->post('phone_number'),
+                'street' => $this->io->post('street'),
+                'barangay' => $this->io->post('barangay'),
+                'city' => $this->io->post('city'),
+                'zip_code' => $this->io->post('zip_code')
+            ];
+
+            if ($this->Dental_uModel->updateUser($user_id, $data)) {
+                set_flash_alert('success', 'Profile updated successfully!');
+                redirect('user-profile');
+            } else {
+                set_flash_alert('danger', 'Failed to update profile.');
+                redirect('user-profile');
+            }
+        }
+    }
+    public function viewAppointments() {
+        if (!$this->lauth->is_logged_in()) {
+            redirect('auth/login');
+        }
+        
+        $user_id = $this->lauth->get_user_id();
+        $data['appointments'] = $this->Dental_uModel->getUserAppointments($user_id);
+        $this->call->view('users/view-appointments', $data);
     }
 
 }
