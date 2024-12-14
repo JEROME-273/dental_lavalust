@@ -7,109 +7,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
     <style>
-        .container {
-            margin-top: 40px;
-        }
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        .page-title {
-            color: #2c3e50;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-        .search-form {
-            margin-bottom: 30px;
-        }
-        .search-form .form-control {
-            border-radius: 8px;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            transition: all 0.3s;
-        }
-        .search-form .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-        .table {
-            margin: 0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .table thead {
-            background-color: #f8f9fa;
-        }
-        .table th {
-            font-weight: 600;
-            color: #2c3e50;
-            padding: 15px;
-            border-bottom: 2px solid #dee2e6;
-        }
-        .table td {
-            padding: 15px;
-            vertical-align: middle;
-            color: #666;
-        }
-        .table tbody tr:hover {
-            background-color: #f8f9fa;
-        }
-        .btn-sm {
-            padding: 5px 10px;
+        .container { margin-top: 40px; }
+        .search-container { margin-bottom: 20px; }
+        .search-container input { 
+            padding: 10px;
             border-radius: 5px;
+            border: 1px solid #ddd;
         }
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            .table-responsive {
-                border-radius: 10px;
-            }
-        }
+        .table { margin-bottom: 30px; }
+        .btn-sm { margin: 0 2px; }
     </style>
 </head>
 <body>
     <?php include APP_DIR.'views/includes/admin/header.php'; ?>
     
     <div class="container">
-        <div class="page-header">
-            <h3 class="page-title"><i class="bi bi-calendar-check me-2"></i>Appointments</h3>
+        <h3 class="mb-4"><i class="bi bi-calendar-check me-2"></i>Appointments</h3>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search appointments...">
         </div>
 
-        <!-- Search Form -->
-        <form method="POST" action="<?= site_url('adminpage') ?>" class="search-form">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <input type="text" name="search_patient" class="form-control" placeholder="Search by Patient Name" 
-                        value="<?= isset($search_patient) ? htmlspecialchars($search_patient) : '' ?>">
-                </div>
-                <div class="col-md-4 mb-3">
-                    <input type="text" name="search_service" class="form-control" placeholder="Search by Service" 
-                        value="<?= isset($search_service) ? htmlspecialchars($search_service) : '' ?>">
-                </div>
-                <div class="col-md-4 mb-3">
-                    <input type="text" name="search_status" class="form-control" placeholder="Search by Status" 
-                        value="<?= isset($search_status) ? htmlspecialchars($search_status) : '' ?>">
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary mt-3"><i class="bi bi-search me-2"></i>Search</button>
-        </form>
-
-        <!-- Display Appointments -->
+        <!-- Today's Appointments -->
+        <h4>Today's Appointments</h4>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -122,7 +42,55 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="today-appointments">
+                    <?php 
+                    $today = date('Y-m-d');
+                    $hasTodayAppointments = false;
+                    foreach ($appointments as $appointment):
+                        if (date('Y-m-d', strtotime($appointment['appointData'])) == $today):
+                            $hasTodayAppointments = true;
+                    ?>
+                        <tr>
+                            <td><?= htmlspecialchars($appointment['appoint_id']) ?></td>
+                            <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
+                            <td><?= date('Y-m-d H:i', strtotime($appointment['appointData'])) ?></td>
+                            <td><?= htmlspecialchars($appointment['service_name']) ?></td>
+                            <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
+                            <td>
+                                <?php if ($appointment['status'] !== 'Done'): ?>
+                                    <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
+                                    <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
+                                    <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
+                                <?php else: ?>
+                                    <span class="badge bg-success">Completed</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php 
+                        endif;
+                    endforeach;
+                    if (!$hasTodayAppointments):
+                    ?>
+                        <tr><td colspan="6" class="text-center">No appointments for today</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- All Appointments -->
+        <h4>All Appointments</h4>
+        <div class="table-responsive">
+            <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient Name</th>
+                    <th>Appointment Date</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+                <tbody id="all-appointments">
                     <?php if (!empty($appointments)): ?>
                         <?php foreach ($appointments as $appointment): ?>
                             <tr>
@@ -130,18 +98,11 @@
                                 <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
                                 <td><?= date('Y-m-d H:i', strtotime($appointment['appointData'])) ?></td>
                                 <td><?= htmlspecialchars($appointment['service_name']) ?></td>
-                                <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
-                                <td>
-                                    <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
-                                    <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
-                                    <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
-                                </td>
+                                <td><?= htmlspecialchars($appointment['status']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <tr>
-                            <td colspan="6" class="text-center">No appointments found</td>
-                        </tr>
+                        <tr><td colspan="5" class="text-center">No appointments found</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -150,33 +111,65 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('.update-status').on('click', function() {
-                var appointmentId = $(this).data('id');
-                var status = $(this).data('status');
-
-                $.ajax({
-                    url: '<?= site_url('admin/update_status') ?>', // Controller method to handle the request
-                    type: 'POST',
-                    data: {
-                        id: appointmentId,
-                        status: status
-                    },
-                    success: function(response) {
-                        var res = JSON.parse(response);
-                        if (res.status === 'success') {
-                            $('#status-' + appointmentId).text(status);
-                            // alert(res.message);
-                        } else {
-                            // alert(res.message);
-                        }
-                    },
-                    error: function() {
-                        alert('Error updating the status.');
-                    }
-                });
-            });
+$(document).ready(function() {
+    // Existing search functionality
+    $("#searchInput").on("keyup", function() {
+        var searchValue = $(this).val().toLowerCase();
+        
+        $("#today-appointments tr, #all-appointments tr").each(function() {
+            var patientName = $(this).find('td:eq(1)').text().toLowerCase();
+            var service = $(this).find('td:eq(3)').text().toLowerCase();
+            var status = $(this).find('td:eq(4)').text().toLowerCase();
+            
+            var matchFound = patientName.indexOf(searchValue) > -1 
+                || service.indexOf(searchValue) > -1 
+                || status.indexOf(searchValue) > -1;
+            
+            $(this).toggle(matchFound);
         });
-    </script>
+    });
+
+    // Updated status update functionality
+    $(document).on('click', '.update-status', function() {
+        var appointmentId = $(this).data('id');
+        var status = $(this).data('status');
+        var buttonCell = $(this).closest('td');
+
+        if (status === 'Done' && !confirm('Are you sure you want to mark this appointment as done?')) {
+            return;
+        }
+
+        $.ajax({
+            url: '<?= site_url('admin/update_status') ?>',
+            type: 'POST',
+            data: {
+                id: appointmentId,
+                status: status
+            },
+            success: function(response) {
+                try {
+                    var res = JSON.parse(response);
+                    if (res.status === 'success') {
+                        $('#status-' + appointmentId).text(status);
+                        if (status === 'Done') {
+                            // Replace all buttons with a "Completed" badge
+                            buttonCell.html('<span class="badge bg-success">Completed</span>');
+                        }
+                    } else {
+                        alert(res.message || 'Error updating status');
+                    }
+                } catch (e) {
+                    console.error('Parse error:', e);
+                    alert('Error processing response');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX error:', error);
+                alert('Error updating the status');
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>
