@@ -14,6 +14,7 @@
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Service</th>
+                                <th>Email</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -23,6 +24,7 @@
                                     <td><?= isset($appointment['appointment_date']) ? date('F d, Y', strtotime($appointment['appointment_date'])) : 'N/A' ?></td>
                                     <td><?= isset($appointment['appointment_time']) ? date('h:i A', strtotime($appointment['appointment_time'])) : 'N/A' ?></td>
                                     <td><?= htmlspecialchars($appointment['service_name']) ?></td>
+                                    <td><?= htmlspecialchars($appointment['email']) ?></td>
                                     <td>
                                         <span class="badge bg-<?php 
                                             echo match(strtolower($appointment['status'])) {

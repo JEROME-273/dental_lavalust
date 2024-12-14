@@ -31,86 +31,89 @@
         <!-- Today's Appointments -->
         <h4>Today's Appointments</h4>
         <div class="table-responsive">
-            <table class="table">
-                <thead>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="today-appointments">
+                <?php 
+                $today = date('Y-m-d');
+                $hasTodayAppointments = false;
+                foreach ($appointments as $appointment):
+                    if (date('Y-m-d', strtotime($appointment['appointment_date'])) == $today):
+                        $hasTodayAppointments = true;
+                ?>
                     <tr>
-                        <th>#</th>
-                        <th>Patient Name</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Service</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <td><?= htmlspecialchars($appointment['appoint_id']) ?></td>
+                        <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
+                        <td><?= htmlspecialchars($appointment['email']) ?></td>
+                        <td><?= date('F d, Y', strtotime($appointment['appointment_date'])) ?></td>
+                        <td><?= date('h:i A', strtotime($appointment['appointment_time'])) ?></td>
+                        <td><?= htmlspecialchars($appointment['service_name']) ?></td>
+                        <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
+                        <td>
+                            <?php if ($appointment['status'] !== 'Done'): ?>
+                                <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
+                                <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
+                                <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
+                            <?php else: ?>
+                                <span class="badge bg-success">Completed</span>
+                            <?php endif; ?>
+                        </td>
                     </tr>
-                </thead>
-                <tbody id="today-appointments">
-                    <?php 
-                    $today = date('Y-m-d');
-                    $hasTodayAppointments = false;
-                    foreach ($appointments as $appointment):
-                        if (date('Y-m-d', strtotime($appointment['appointment_date'])) == $today):
-                            $hasTodayAppointments = true;
-                    ?>
+                <?php 
+                    endif;
+                endforeach;
+                if (!$hasTodayAppointments):
+                ?>
+                    <tr><td colspan="8" class="text-center">No appointments for today</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- All Appointments section -->
+    <h4>All Appointments</h4>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="all-appointments">
+                <?php if (!empty($appointments)): ?>
+                    <?php foreach ($appointments as $appointment): ?>
                         <tr>
                             <td><?= htmlspecialchars($appointment['appoint_id']) ?></td>
                             <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
+                            <td><?= htmlspecialchars($appointment['email']) ?></td>
                             <td><?= date('F d, Y', strtotime($appointment['appointment_date'])) ?></td>
                             <td><?= date('h:i A', strtotime($appointment['appointment_time'])) ?></td>
                             <td><?= htmlspecialchars($appointment['service_name']) ?></td>
-                            <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
-                            <td>
-                                <?php if ($appointment['status'] !== 'Done'): ?>
-                                    <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
-                                    <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
-                                    <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
-                                <?php else: ?>
-                                    <span class="badge bg-success">Completed</span>
-                                <?php endif; ?>
-                            </td>
+                            <td><?= htmlspecialchars($appointment['status']) ?></td>
                         </tr>
-                    <?php 
-                        endif;
-                    endforeach;
-                    if (!$hasTodayAppointments):
-                    ?>
-                        <tr><td colspan="7" class="text-center">No appointments for today</td></tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- All Appointments -->
-        <h4>All Appointments</h4>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Patient Name</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Service</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="all-appointments">
-                    <?php if (!empty($appointments)): ?>
-                        <?php foreach ($appointments as $appointment): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($appointment['appoint_id']) ?></td>
-                                <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
-                                <td><?= date('F d, Y', strtotime($appointment['appointment_date'])) ?></td>
-                                <td><?= date('h:i A', strtotime($appointment['appointment_time'])) ?></td>
-                                <td><?= htmlspecialchars($appointment['service_name']) ?></td>
-                                <td><?= htmlspecialchars($appointment['status']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr><td colspan="6" class="text-center">No appointments found</td></tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr><td colspan="7" class="text-center">No appointments found</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
