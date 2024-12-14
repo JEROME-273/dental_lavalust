@@ -165,7 +165,12 @@ class Dental_uModel extends Model {
             ->where('appoint.user_id', $user_id)
             ->get_all();
     }
-    
+    public function getAppointmentCountForDate($date) {
+        return $this->db->table('appoint')
+            ->where('appointment_date', $date)
+            ->select_count('appoint_id', 'count')
+            ->get()['count'];
+    }
     
 }
 ?>

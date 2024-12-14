@@ -128,6 +128,14 @@ class Users extends Controller {
         $data['appointments'] = $this->Dental_uModel->getUserAppointments($user_id);
         $this->call->view('users/view-appointments', $data);
     }
+    public function checkSlots() {
+        $date = $this->io->get('date');
+        $count = $this->Dental_uModel->getAppointmentCountForDate($date);
+        
+        header('Content-Type: application/json');
+        echo json_encode(['count' => $count]);
+        exit;
+    }
 
 }
 
