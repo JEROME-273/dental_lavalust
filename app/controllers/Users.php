@@ -17,6 +17,9 @@ class Users extends Controller {
     
     public function create_appoint() {
         if($this->form_validation->submitted()) {
+            $appointment_date = $this->io->post('appointment_date');
+            $appointment_time = $this->io->post('appointment_time');
+            
             $data = array(
                 'user_id' => $this->lauth->get_user_id(),
                 'fname' => $this->io->post('first_name'),
@@ -24,7 +27,8 @@ class Users extends Controller {
                 'email' => $this->io->post('email'),
                 'phone' => $this->io->post('phone'),
                 'address' => $this->io->post('Address'),
-                'appointData' => $this->io->post('appointment_date'),
+                'appointment_date' => $appointment_date,
+                'appointment_time' => $appointment_time,
                 'service_id' => $this->io->post('service_id'),
                 'status' => 'pending'
             );
@@ -34,11 +38,8 @@ class Users extends Controller {
                 redirect('home');
             } else {
                 set_flash_alert('danger', 'Failed to create appointment');
-                redirect('users/appointments');
+                redirect('appointment');
             }
-        } else {
-            set_flash_alert('danger', $this->form_validation->errors());
-            redirect('users/appointments');
         }
     }
     

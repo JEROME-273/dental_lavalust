@@ -49,6 +49,7 @@ include APP_DIR.'views/includes/users/header.php';
         background-color: #0056b3;
         transform: translateY(-2px);
     }
+    
 </style>
 
 <div class="appointment-container">
@@ -80,9 +81,12 @@ include APP_DIR.'views/includes/users/header.php';
                     <input type="text" class="form-control" id="Address" name="Address" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="appointment_date" class="form-label"><i class="bi bi-calendar-date me-2"></i>Appointment Date</label>
-                    <input type="datetime-local" class="form-control" id="appointment_date" name="appointment_date" required>
-                </div>
+    <label for="appointment_date" class="form-label">
+        <i class="bi bi-calendar-date me-2"></i>Appointment Date
+    </label>
+    <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
+</div>
+
                 <div class="col-md-6 mb-3">
                     <label for="service_id" class="form-label"><i class="bi bi-clipboard2-pulse me-2"></i>Select Service</label>
                     <select class="form-select" id="service_id" name="service_id" required>
@@ -98,6 +102,21 @@ include APP_DIR.'views/includes/users/header.php';
                         <?php endif; ?>
                     </select>
                 </div>
+                <div class="col-md-6 mb-3">
+    <label for="appointment_time" class="form-label">
+        <i class="bi bi-clock me-2"></i>Appointment Time
+    </label>
+    <select class="form-select" id="appointment_time" name="appointment_time" required>
+        <option value="" disabled selected>Select time</option>
+        <option value="08:00">8:00 AM</option>
+        <option value="09:00">9:00 AM</option>
+        <option value="10:00">10:00 AM</option>
+        <option value="11:00">11:00 AM</option>
+        <option value="13:00">1:00 PM</option>
+        <option value="14:00">2:00 PM</option>
+        <option value="15:00">3:00 PM</option>
+    </select>
+</div>
             </div>
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-book">
@@ -113,46 +132,40 @@ include APP_DIR.'views/includes/users/header.php';
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const bookedDates = <?= json_encode($bookedDates); ?>;
-        const appointmentDateInput = document.getElementById('appointment_date');
-        
-        // Disable Sundays in the date picker
-        const today = new Date();
-        const nextSunday = new Date(today);
-        nextSunday.setDate(today.getDate() + (7 - today.getDay())); // Get the next Sunday
-        
-        // Set the minimum date to today
-        appointmentDateInput.setAttribute('min', today.toISOString().split('T')[0]);
+document.addEventListener('DOMContentLoaded', function () {
+    const bookedDates = <?= json_encode($bookedDates); ?>;
+    const appointmentDateInput = document.getElementById('appointment_date');
+    
+    // Set minimum date to today
+    const today = new Date();
+    appointmentDateInput.setAttribute('min', today.toISOString().split('T')[0]);
 
-        for (let i = 0; i < 7; i++) {
-            const dateToCheck = new Date(today);
-            dateToCheck.setDate(today.getDate() + i);
-            if (dateToCheck.getDay() === 0) { // Check if it's Sunday
-                appointmentDateInput.setAttribute('max', nextSunday.toISOString().split('T')[0]); // Allow selection till next Sunday
-                break;
-            }
+    // Disable Sundays
+    appointmentDateInput.addEventListener('input', function() {
+        const selectedDate = new Date(this.value);
+        if (selectedDate.getDay() === 0) { // Sunday
+            alert('Sorry, we are closed on Sundays. Please select another day.');
+            this.value = '';
         }
 
-        appointmentDateInput.addEventListener('change', function () {
-            const selectedDate = new Date(this.value).toISOString().split('T')[0];
-            if (bookedDates.includes(selectedDate)) {
-                alert('This date is fully booked. Please choose another date.');
-                this.value = '';
-            }
-
-            const selectedTime = this.value.split('T')[1]; // Get time part from input
-            const hours = selectedTime.split(':')[0]; // Get hour part
-
-            if ((hours >= 8 && hours < 11) || (hours >= 13 && hours < 17)) {
-                // Time is within allowed range
-                return;
-            } else {
-                alert('Please select a time between 8 AM - 11 AM or 1 PM - 5 PM.');
- this.value = ''; // Clear the input
-            }
-        });
+        // Check if date is booked
+        if (bookedDates.includes(this.value)) {
+            alert('This date is fully booked. Please choose another date.');
+            this.value = '';
+        }
     });
+
+    // Form submission handling
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const date = appointmentDateInput.value;
+        const time = document.getElementById('appointment_time').value;
+        
+        if (!date || !time) {
+            e.preventDefault();
+            alert('Please select both date and time for your appointment.');
+        }
+    });
+});
 </script>
 </body>
 

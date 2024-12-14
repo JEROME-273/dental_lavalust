@@ -57,7 +57,9 @@ class Dental_uModel extends Model {
 
     public function getAppointments($search_patient, $search_service, $search_status) {
         $query = $this->db->table('appoint')
-            ->select('appoint.appoint_id, appoint.fname, appoint.lname, appoint.appointData, services.service_name, appoint.status')
+            ->select('appoint.appoint_id, appoint.fname, appoint.lname, 
+                     appoint.appointment_date, appoint.appointment_time, 
+                     services.service_name, appoint.status')
             ->join('services', 'appoint.service_id = services.service_id');
     
         if ($search_patient) {

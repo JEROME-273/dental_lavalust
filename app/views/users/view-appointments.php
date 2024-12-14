@@ -11,7 +11,8 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Date & Time</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Service</th>
                                 <th>Status</th>
                             </tr>
@@ -19,7 +20,8 @@
                         <tbody>
                             <?php foreach ($appointments as $appointment): ?>
                                 <tr>
-                                    <td><?= date('F d, Y h:i A', strtotime($appointment['appointData'])) ?></td>
+                                    <td><?= isset($appointment['appointment_date']) ? date('F d, Y', strtotime($appointment['appointment_date'])) : 'N/A' ?></td>
+                                    <td><?= isset($appointment['appointment_time']) ? date('h:i A', strtotime($appointment['appointment_time'])) : 'N/A' ?></td>
                                     <td><?= htmlspecialchars($appointment['service_name']) ?></td>
                                     <td>
                                         <span class="badge bg-<?php 

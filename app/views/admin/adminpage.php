@@ -36,7 +36,8 @@
                     <tr>
                         <th>#</th>
                         <th>Patient Name</th>
-                        <th>Appointment Date</th>
+                        <th>Date</th>
+                        <th>Time</th>
                         <th>Service</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -47,13 +48,14 @@
                     $today = date('Y-m-d');
                     $hasTodayAppointments = false;
                     foreach ($appointments as $appointment):
-                        if (date('Y-m-d', strtotime($appointment['appointData'])) == $today):
+                        if (date('Y-m-d', strtotime($appointment['appointment_date'])) == $today):
                             $hasTodayAppointments = true;
                     ?>
                         <tr>
                             <td><?= htmlspecialchars($appointment['appoint_id']) ?></td>
                             <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
-                            <td><?= date('Y-m-d H:i', strtotime($appointment['appointData'])) ?></td>
+                            <td><?= date('F d, Y', strtotime($appointment['appointment_date'])) ?></td>
+                            <td><?= date('h:i A', strtotime($appointment['appointment_time'])) ?></td>
                             <td><?= htmlspecialchars($appointment['service_name']) ?></td>
                             <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
                             <td>
@@ -71,7 +73,7 @@
                     endforeach;
                     if (!$hasTodayAppointments):
                     ?>
-                        <tr><td colspan="6" class="text-center">No appointments for today</td></tr>
+                        <tr><td colspan="7" class="text-center">No appointments for today</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -81,28 +83,30 @@
         <h4>All Appointments</h4>
         <div class="table-responsive">
             <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Patient Name</th>
-                    <th>Appointment Date</th>
-                    <th>Service</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Patient Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Service</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
                 <tbody id="all-appointments">
                     <?php if (!empty($appointments)): ?>
                         <?php foreach ($appointments as $appointment): ?>
                             <tr>
                                 <td><?= htmlspecialchars($appointment['appoint_id']) ?></td>
                                 <td><?= htmlspecialchars($appointment['fname'] . ' ' . $appointment['lname']) ?></td>
-                                <td><?= date('Y-m-d H:i', strtotime($appointment['appointData'])) ?></td>
+                                <td><?= date('F d, Y', strtotime($appointment['appointment_date'])) ?></td>
+                                <td><?= date('h:i A', strtotime($appointment['appointment_time'])) ?></td>
                                 <td><?= htmlspecialchars($appointment['service_name']) ?></td>
                                 <td><?= htmlspecialchars($appointment['status']) ?></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <tr><td colspan="5" class="text-center">No appointments found</td></tr>
+                        <tr><td colspan="6" class="text-center">No appointments found</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -111,65 +115,62 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-$(document).ready(function() {
-    // Existing search functionality
-    $("#searchInput").on("keyup", function() {
-        var searchValue = $(this).val().toLowerCase();
-        
-        $("#today-appointments tr, #all-appointments tr").each(function() {
-            var patientName = $(this).find('td:eq(1)').text().toLowerCase();
-            var service = $(this).find('td:eq(3)').text().toLowerCase();
-            var status = $(this).find('td:eq(4)').text().toLowerCase();
-            
-            var matchFound = patientName.indexOf(searchValue) > -1 
-                || service.indexOf(searchValue) > -1 
-                || status.indexOf(searchValue) > -1;
-            
-            $(this).toggle(matchFound);
-        });
-    });
+        $(document).ready(function() {
+            $("#searchInput").on("keyup", function() {
+                var searchValue = $(this).val().toLowerCase();
+                
+                $("#today-appointments tr, #all-appointments tr").each(function() {
+                    var patientName = $(this).find('td:eq(1)').text().toLowerCase();
+                    var service = $(this).find('td:eq(4)').text().toLowerCase();
+                    var status = $(this).find('td:eq(5)').text().toLowerCase();
+                    
+                    var matchFound = patientName.indexOf(searchValue) > -1 
+                        || service.indexOf(searchValue) > -1 
+                        || status.indexOf(searchValue) > -1;
+                    
+                    $(this).toggle(matchFound);
+                });
+            });
 
-    // Updated status update functionality
-    $(document).on('click', '.update-status', function() {
-        var appointmentId = $(this).data('id');
-        var status = $(this).data('status');
-        var buttonCell = $(this).closest('td');
+            $(document).on('click', '.update-status', function() {
+                var appointmentId = $(this).data('id');
+                var status = $(this).data('status');
+                var buttonCell = $(this).closest('td');
 
-        if (status === 'Done' && !confirm('Are you sure you want to mark this appointment as done?')) {
-            return;
-        }
-
-        $.ajax({
-            url: '<?= site_url('admin/update_status') ?>',
-            type: 'POST',
-            data: {
-                id: appointmentId,
-                status: status
-            },
-            success: function(response) {
-                try {
-                    var res = JSON.parse(response);
-                    if (res.status === 'success') {
-                        $('#status-' + appointmentId).text(status);
-                        if (status === 'Done') {
-                            // Replace all buttons with a "Completed" badge
-                            buttonCell.html('<span class="badge bg-success">Completed</span>');
-                        }
-                    } else {
-                        alert(res.message || 'Error updating status');
-                    }
-                } catch (e) {
-                    console.error('Parse error:', e);
-                    alert('Error processing response');
+                if (status === 'Done' && !confirm('Are you sure you want to mark this appointment as done?')) {
+                    return;
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX error:', error);
-                alert('Error updating the status');
-            }
+
+                $.ajax({
+                    url: '<?= site_url('admin/update_status') ?>',
+                    type: 'POST',
+                    data: {
+                        id: appointmentId,
+                        status: status
+                    },
+                    success: function(response) {
+                        try {
+                            var res = JSON.parse(response);
+                            if (res.status === 'success') {
+                                $('#status-' + appointmentId).text(status);
+                                if (status === 'Done') {
+                                    buttonCell.html('<span class="badge bg-success">Completed</span>');
+                                }
+                            } else {
+                                alert(res.message || 'Error updating status');
+                            }
+                        } catch (e) {
+                            console.error('Parse error:', e);
+                            alert('Error processing response');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX error:', error);
+                        alert('Error updating the status');
+                    }
+                });
+            });
         });
-    });
-});
-</script>
+    </script>
 </body>
 </html>
