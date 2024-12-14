@@ -173,6 +173,10 @@ class Dental_uModel extends Model {
             ->select_count('appoint_id', 'count')
             ->get()['count'];
     }
-    
+    public function getAppointmentById($id) {
+        return $this->db->table('appoint')
+            ->where('appoint_id', $id)
+            ->get();
+    }
 }
 ?>

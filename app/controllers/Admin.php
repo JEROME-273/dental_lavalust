@@ -73,13 +73,79 @@ class Admin extends Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $appointmentId = $_POST['id'];
             $status = $_POST['status'];
-
+    
+            // Get appointment details before updating
+            $appointment = $this->Dental_uModel->getAppointmentById($appointmentId);
+    
             if ($this->Dental_uModel->updateAppointmentStatus($appointmentId, $status)) {
-                echo json_encode(['status' => 'success', 'message' => 'Appointment status updated successfully!']);
+                // Send email notification
+                $email_sent = $this->send_appointment_status_email(
+                    $appointment['email'],
+                    $appointment['fname'] . ' ' . $appointment['lname'],
+                    $status,
+                    $appointment['appointment_date'],
+                    $appointment['appointment_time']
+                );
+    
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Appointment status updated successfully!'
+                ];
+                if (!$email_sent) {
+                    $response['email_status'] = 'Email notification failed to send';
+                }
+                echo json_encode($response);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Error updating appointment status.']);
             }
         }
+    }
+    
+    public function send_appointment_status_email($email, $name, $status, $appointment_date, $appointment_time) {
+        $this->call->library('email');
+    
+        // Format date and time for email
+        $formatted_date = date('F d, Y', strtotime($appointment_date));
+        $formatted_time = date('h:i A', strtotime($appointment_time));
+    
+        // Email content based on status
+        switch($status) {
+            case 'Done':
+                $subject = 'Appointment Completed';
+                $message = "Dear $name,\n\n"
+                        . "Your dental appointment scheduled for $formatted_date at $formatted_time has been completed. "
+                        . "Thank you for visiting Gayoso Dental Clinic!\n\n"
+                        . "For any follow-up questions, please don't hesitate to contact us.\n\n"
+                        . "Best regards,\n"
+                        . "Gayoso Dental Clinic Team";
+                break;
+    
+            case 'Postponed':
+                $subject = 'Appointment Postponed';
+                $message = "Dear $name,\n\n"
+                        . "Your dental appointment scheduled for $formatted_date at $formatted_time has been postponed. "
+                        . "We will contact you shortly to reschedule your appointment.\n\n"
+                        . "We apologize for any inconvenience caused.\n\n"
+                        . "Best regards,\n"
+                        . "Gayoso Dental Clinic Team";
+                break;
+    
+            case 'Follow Up':
+                $subject = 'Follow-up Appointment Required';
+                $message = "Dear $name,\n\n"
+                        . "Regarding your dental appointment on $formatted_date at $formatted_time, "
+                        . "we recommend scheduling a follow-up appointment.\n\n"
+                        . "Please contact us to schedule your follow-up visit.\n\n"
+                        . "Best regards,\n"
+                        . "Gayoso Dental Clinic Team";
+                break;
+        }
+    
+        $this->email->recipient($email);
+        $this->email->subject($subject);
+        $this->email->sender('dentalclinic@gmail.com', 'Gayoso Dental Clinic');
+        $this->email->email_content($message, 'text');
+        return $this->email->send();
     }
 }
 ?>
