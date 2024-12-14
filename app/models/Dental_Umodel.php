@@ -96,8 +96,8 @@ class Dental_uModel extends Model {
 
     public function getPatientsPerMonth() {
         return $this->db->table('appoint')
-            ->select('MONTH(appointData) as month, COUNT(*) as total_patients')
-            ->group_by('MONTH(appointData)')
+            ->select('MONTH(appointment_date) as month, COUNT(*) as total_patients')
+            ->group_by('MONTH(appointment_date)')
             ->get_all();
     }
     
@@ -177,6 +177,16 @@ class Dental_uModel extends Model {
         return $this->db->table('appoint')
             ->where('appoint_id', $id)
             ->get();
+    }
+    public function getTotalUsers() {
+        $users = $this->db->table('users')->get_all();
+        return count($users);
+    }
+    
+    // Rename existing getTotalPatients to getTotalAppointments for clarity
+    public function getTotalAppointments() {
+        $appointments = $this->db->table('appoint')->get_all();
+        return count($appointments);
     }
 }
 ?>

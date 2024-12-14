@@ -44,12 +44,14 @@ class Admin extends Controller {
 
     // Report view
     public function report() {
-        $total_patients = $this->Dental_uModel->getTotalPatients();
+        $total_appointments = $this->Dental_uModel->getTotalAppointments();
+        $total_users = $this->Dental_uModel->getTotalUsers();
         $monthly_patient_data = $this->Dental_uModel->getPatientsPerMonth();
         $service_patient_data = $this->Dental_uModel->getServicesChosen();
     
         $this->call->view('admin/report', [
-            'total_patients' => $total_patients,
+            'total_appointments' => $total_appointments,
+            'total_users' => $total_users,
             'monthly_patient_data' => $monthly_patient_data,
             'service_patient_data' => $service_patient_data
         ]);

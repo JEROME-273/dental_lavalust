@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 14, 2024 at 06:09 AM
+-- Generation Time: Dec 14, 2024 at 07:03 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -46,8 +46,7 @@ CREATE TABLE `appoint` (
 --
 
 INSERT INTO `appoint` (`appoint_id`, `user_id`, `fname`, `lname`, `email`, `phone`, `address`, `appointment_date`, `appointment_time`, `service_id`, `status`) VALUES
-(49, 39, 'Lans Lorence', 'Navarro Hernandez', 'lanslorence@gmail.com', '43432423', 'Ibaba West', '2024-12-14', '08:00:00', 1, 'Done'),
-(50, 39, 'Lans Lorence', 'Navarro Hernandez', 'mindconnect@gmail.com', '43432423', 'Ibaba West', '2024-12-14', '08:00:00', 7, 'Done');
+(51, 39, 'Lans Lorence', 'Navarro Hernandez', 'lanslorence@gmail.com', '43432423', 'Ibaba West', '2024-12-14', '10:00:00', 1, 'pending');
 
 -- --------------------------------------------------------
 
@@ -101,48 +100,6 @@ INSERT INTO `password_reset` (`id`, `email`, `reset_token`, `created_on`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patients`
---
-
-CREATE TABLE `patients` (
-  `patient_id` int NOT NULL,
-  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `patients`
---
-
-INSERT INTO `patients` (`patient_id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `user_id`) VALUES
-(1, 'Ma. Sachilette', 'Leyesa', 'saaach25@gmail.com', '09301952078', '2024-10-13 15:41:48', 0),
-(2, 'Sachi', 'Leyesa', 'sach@gmail.com', '09301952078', '2024-10-13 16:43:59', 0),
-(3, 'lans', 'lorence', 'sakdnwk4@gmal.com', '12d45', '2024-10-13 16:59:22', 0),
-(4, 'Lans Lorence ', 'Hernandez', 'lanslorence@gmail.com', '09639447150', '2024-10-13 17:22:06', 0),
-(5, 'dsadas', 'jttfgh', 'fhfg@gmail.com', '345678', '2024-10-13 17:24:38', 0),
-(6, 'dsadas', 'jttfgh', 'fhfg@gmail.com', '345678', '2024-10-13 17:26:02', 0),
-(7, 'dsadasdbsahdashg', 'hgdsaghfgashfjgj', 'dsladkas@gmail.com', '3124', '2024-10-13 17:26:18', 0),
-(8, 'Sachi', 'Maria', 'sach@gmail.com', '09354651542', '2024-10-13 17:30:29', 0),
-(9, 'Lorence', 'Hernandez', 'lans@gmail.com', '09127649805', '2024-10-13 23:11:54', 0),
-(10, 'LAaaans', 'Hernandez', 'lans@gmail.com', '09127649805', '2024-10-14 16:49:00', 0),
-(11, 'LAaaans', 'Hernandez', 'lans@gmail.com', '09127649805', '2024-10-14 18:32:07', 0),
-(12, 'MA. SACHILETTE', 'LEYESA', 'maria@gmail.com', '09301648307', '2024-10-14 19:29:43', 0),
-(13, 'Yessah', 'Vibas', 'ysa@gmail.com', '095462317651', '2024-10-14 19:45:43', 0),
-(14, 'qfws', 'fcds', 'fvdfdx@gmail.com', '0216214864', '2024-10-14 19:50:53', 0),
-(15, 'asdf', 'qwerty', 'vfdgr@gmail.com', '095489147412', '2024-10-14 19:52:11', 0),
-(16, 'wfdsczdc', 'dsva', 'maria@gmail.com', '0948765124', '2024-10-14 19:52:30', 0),
-(17, 'wfdsczdc', 'dsva', 'maria@gmail.com', '0948765124', '2024-10-14 19:52:51', 0),
-(18, 'wertyy', 'sfacsa', 'asd@gmail.com', '09462178541', '2024-10-14 19:53:32', 0),
-(19, 'wertyy', 'sfacsa', 'asd@gmail.com', '09462178541', '2024-10-14 19:57:52', 0),
-(20, 'Marilou', 'Leyesa', 'malou@gmail.com', '09309146122', '2024-10-15 11:17:59', 0);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `services`
 --
 
@@ -190,7 +147,10 @@ INSERT INTO `sessions` (`session_id`, `user_id`, `browser`, `ip`, `session_data`
 (67, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '::1', '1ca1f1e23faf61bca18ecf13ce1ae8273b6d4ce84c6c37089c00fe4e2a6334a2', '2024-12-11 11:17:18'),
 (76, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', '072ec79e24f1f6011e03d1a6a0d68075e2053b9d7ad27de16cf6088782ea4a58', '2024-12-14 09:10:37'),
 (78, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', 'c5c1ba3d8c1fc2f73b1dc25f5753fe05e4828c1f417e807fff2ca340676545d4', '2024-12-14 09:58:37'),
-(81, 39, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '127.0.0.1', 'b85a6078b5e511c85263246d7c96be79df8c1005aad937b478c63ef580462ca3', '2024-12-14 13:33:16');
+(81, 39, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '127.0.0.1', 'b85a6078b5e511c85263246d7c96be79df8c1005aad937b478c63ef580462ca3', '2024-12-14 13:33:16'),
+(82, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', '8673808e8e10d6402125e163347c969511f44320d598eaa7b7ee517dea017e75', '2024-12-14 14:29:32'),
+(83, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', '6db29ade6a634a36c0a786d42609f3537f9b08a0148b7ec34ac7fd1e0e3a25e3', '2024-12-14 14:41:19'),
+(84, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', 'ee24d1ee50b00d4be43084a9218462f0643ab44a546bb050bde6c9d88b4c2b66', '2024-12-14 15:01:15');
 
 -- --------------------------------------------------------
 
@@ -283,7 +243,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appoint`
 --
 ALTER TABLE `appoint`
-  MODIFY `appoint_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `appoint_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -301,7 +261,7 @@ ALTER TABLE `password_reset`
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `session_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `session_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `users`
