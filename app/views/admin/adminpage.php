@@ -176,7 +176,7 @@
                             }
                         } catch (e) {
                             console.error('Parse error:', e);
-                            alert('Error processing response');
+                            alert('Already updated');
                         }
                     },
                     error: function(xhr, status, error) {
