@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 14, 2024 at 06:09 AM
+-- Generation Time: Dec 15, 2024 at 02:35 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `lavaui3`
+-- Database: `lavaui2`
 --
 
 -- --------------------------------------------------------
@@ -46,8 +46,41 @@ CREATE TABLE `appoint` (
 --
 
 INSERT INTO `appoint` (`appoint_id`, `user_id`, `fname`, `lname`, `email`, `phone`, `address`, `appointment_date`, `appointment_time`, `service_id`, `status`) VALUES
-(49, 39, 'Lans Lorence', 'Navarro Hernandez', 'lanslorence@gmail.com', '43432423', 'Ibaba West', '2024-12-14', '08:00:00', 1, 'Done'),
-(50, 39, 'Lans Lorence', 'Navarro Hernandez', 'mindconnect@gmail.com', '43432423', 'Ibaba West', '2024-12-14', '08:00:00', 7, 'Done');
+(64, 42, 'Lans Lorence', 'Navarro Hernandez', 'mindconnect@gmail.com', 'ddsadas', 'Ibaba West', '2024-12-17', '10:00:00', 2, 'pending'),
+(65, 42, 'Lans Lorence', 'Navarro Hernandez', 'admin@gmail.com', 'ddsadas', 'Ibaba West', '2024-12-15', '09:00:00', 1, 'Cancelled'),
+(66, 42, 'dasdsa', 'dasdas', 'dasd@gmail.com', 'ddsadasdasd', 'dasdasdsa', '2024-12-15', '11:00:00', 5, 'Done'),
+(67, 42, 'dasd', 'sadsa', 'dsadsad@gmail.com', 'sadasdsadas', 'dasdsadasdsadas', '2024-12-15', '13:00:00', 6, 'pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cancelled_appointments`
+--
+
+CREATE TABLE `cancelled_appointments` (
+  `cancel_id` int NOT NULL,
+  `appoint_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `fname` varchar(255) NOT NULL,
+  `lname` varchar(255) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `appointment_date` date DEFAULT NULL,
+  `appointment_time` time DEFAULT NULL,
+  `service_id` int DEFAULT NULL,
+  `cancellation_reason` text NOT NULL,
+  `cancelled_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `cancelled_appointments`
+--
+
+INSERT INTO `cancelled_appointments` (`cancel_id`, `appoint_id`, `user_id`, `fname`, `lname`, `email`, `appointment_date`, `appointment_time`, `service_id`, `cancellation_reason`, `cancelled_at`) VALUES
+(1, 57, 42, 'Lans Lorence', 'Navarro Hernandez', 'mindconnect@gmail.com', '2024-12-15', '08:00:00', 3, 'Health Issues', '2024-12-15 13:49:59'),
+(2, 58, 42, 'Lans Lorence', 'Navarro Hernandez', 'mindconnect@gmail.com', '2024-12-16', '09:00:00', 2, 'Schedule Conflict', '2024-12-15 13:51:04'),
+(3, 59, 42, 'rhyan', 'Hernandez', 'mindconnect@gmail.com', '2024-12-17', '08:00:00', 3, 'Transportation Issues', '2024-12-15 13:51:56'),
+(4, 60, 42, 'Lans Lorence', 'Navarro Hernandez', 'mindconnect@gmail.com', '2024-12-16', '09:00:00', 3, 'Health Issues', '2024-12-15 14:08:57'),
+(5, 63, 42, 'Lans Lorence', 'Navarro Hernandez', 'mindconnect@gmail.com', '2024-12-16', '09:00:00', 1, 'Personal Emergency', '2024-12-15 14:34:56');
 
 -- --------------------------------------------------------
 
@@ -101,48 +134,6 @@ INSERT INTO `password_reset` (`id`, `email`, `reset_token`, `created_on`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patients`
---
-
-CREATE TABLE `patients` (
-  `patient_id` int NOT NULL,
-  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `user_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `patients`
---
-
-INSERT INTO `patients` (`patient_id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `user_id`) VALUES
-(1, 'Ma. Sachilette', 'Leyesa', 'saaach25@gmail.com', '09301952078', '2024-10-13 15:41:48', 0),
-(2, 'Sachi', 'Leyesa', 'sach@gmail.com', '09301952078', '2024-10-13 16:43:59', 0),
-(3, 'lans', 'lorence', 'sakdnwk4@gmal.com', '12d45', '2024-10-13 16:59:22', 0),
-(4, 'Lans Lorence ', 'Hernandez', 'lanslorence@gmail.com', '09639447150', '2024-10-13 17:22:06', 0),
-(5, 'dsadas', 'jttfgh', 'fhfg@gmail.com', '345678', '2024-10-13 17:24:38', 0),
-(6, 'dsadas', 'jttfgh', 'fhfg@gmail.com', '345678', '2024-10-13 17:26:02', 0),
-(7, 'dsadasdbsahdashg', 'hgdsaghfgashfjgj', 'dsladkas@gmail.com', '3124', '2024-10-13 17:26:18', 0),
-(8, 'Sachi', 'Maria', 'sach@gmail.com', '09354651542', '2024-10-13 17:30:29', 0),
-(9, 'Lorence', 'Hernandez', 'lans@gmail.com', '09127649805', '2024-10-13 23:11:54', 0),
-(10, 'LAaaans', 'Hernandez', 'lans@gmail.com', '09127649805', '2024-10-14 16:49:00', 0),
-(11, 'LAaaans', 'Hernandez', 'lans@gmail.com', '09127649805', '2024-10-14 18:32:07', 0),
-(12, 'MA. SACHILETTE', 'LEYESA', 'maria@gmail.com', '09301648307', '2024-10-14 19:29:43', 0),
-(13, 'Yessah', 'Vibas', 'ysa@gmail.com', '095462317651', '2024-10-14 19:45:43', 0),
-(14, 'qfws', 'fcds', 'fvdfdx@gmail.com', '0216214864', '2024-10-14 19:50:53', 0),
-(15, 'asdf', 'qwerty', 'vfdgr@gmail.com', '095489147412', '2024-10-14 19:52:11', 0),
-(16, 'wfdsczdc', 'dsva', 'maria@gmail.com', '0948765124', '2024-10-14 19:52:30', 0),
-(17, 'wfdsczdc', 'dsva', 'maria@gmail.com', '0948765124', '2024-10-14 19:52:51', 0),
-(18, 'wertyy', 'sfacsa', 'asd@gmail.com', '09462178541', '2024-10-14 19:53:32', 0),
-(19, 'wertyy', 'sfacsa', 'asd@gmail.com', '09462178541', '2024-10-14 19:57:52', 0),
-(20, 'Marilou', 'Leyesa', 'malou@gmail.com', '09309146122', '2024-10-15 11:17:59', 0);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `services`
 --
 
@@ -190,7 +181,15 @@ INSERT INTO `sessions` (`session_id`, `user_id`, `browser`, `ip`, `session_data`
 (67, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '::1', '1ca1f1e23faf61bca18ecf13ce1ae8273b6d4ce84c6c37089c00fe4e2a6334a2', '2024-12-11 11:17:18'),
 (76, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', '072ec79e24f1f6011e03d1a6a0d68075e2053b9d7ad27de16cf6088782ea4a58', '2024-12-14 09:10:37'),
 (78, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', 'c5c1ba3d8c1fc2f73b1dc25f5753fe05e4828c1f417e807fff2ca340676545d4', '2024-12-14 09:58:37'),
-(81, 39, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '127.0.0.1', 'b85a6078b5e511c85263246d7c96be79df8c1005aad937b478c63ef580462ca3', '2024-12-14 13:33:16');
+(81, 39, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '127.0.0.1', 'b85a6078b5e511c85263246d7c96be79df8c1005aad937b478c63ef580462ca3', '2024-12-14 13:33:16'),
+(82, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', '8673808e8e10d6402125e163347c969511f44320d598eaa7b7ee517dea017e75', '2024-12-14 14:29:32'),
+(83, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', '6db29ade6a634a36c0a786d42609f3537f9b08a0148b7ec34ac7fd1e0e3a25e3', '2024-12-14 14:41:19'),
+(84, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', 'ee24d1ee50b00d4be43084a9218462f0643ab44a546bb050bde6c9d88b4c2b66', '2024-12-14 15:01:15'),
+(86, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', 'd9bd0889d3c67b06ba9ff646f0339f1201960552032ca0651ff669cf0d4ba502', '2024-12-15 19:09:41'),
+(88, 34, 'Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.188 Safari/537.36 CrKey/1.54.250320 Edg/131.0.0.0', '127.0.0.1', '4a19fa1e2f1148279f4a578029d43383de228fcc02497c94d9b7fbd87e480afb', '2024-12-15 19:23:45'),
+(89, 34, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', '127.0.0.1', '874b9088eaff3cc261258c95af77cceb8ba087f59e5b87549459dcc07fbdea29', '2024-12-15 19:25:53'),
+(90, 42, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '127.0.0.1', 'f503f33c6c61d2fc873b219a0aeffd07093e0e29ca5387289c5216340dbbf017', '2024-12-15 20:00:08'),
+(91, 42, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', '127.0.0.1', 'd7fb8ecc7655503635be6a4b6e204c8fafdb0b5003debaec36a88c3c9e78c3fe', '2024-12-15 20:05:17');
 
 -- --------------------------------------------------------
 
@@ -225,12 +224,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `email_token`, `email_verified_at`, `password`, `remember_token`, `google_oauth_id`, `role`, `created_at`, `updated_at`, `first_name`, `last_name`, `address`, `street`, `barangay`, `city`, `zip_code`, `phone_number`) VALUES
-(33, 'jeromepogi', 'firedown1231@gmail.com', '17672ed0b51619c705e74079105c0679d29754bdae1dff35b2edd5191d42f141b3eacf49070c8a6d13cda70cbf124a7799c1', '2024-12-13 11:29:07', '$2y$04$HbJXVGQ.MKXNmpKsj4ynuebV7gjTt5ADBbXTu8FnNvXJuo8dLkLoq', NULL, NULL, 'user', '2024-12-09 17:56:39', '2024-12-13 18:29:07', 'jerome', 'martinez', NULL, 'malungay', 'nacoco', 'calapan', '5200', '09123129322'),
-(34, 'sachi', 'sachi@gmail.com', '75e5c1c48312b54fd394a8bdcfb5a3be41aa3da061c6ebf0528178eb104b71b0475a7cd17dc8ef9c8fde40a7b31f3c4e8812', '2024-12-13 11:29:07', '$2y$04$VlyoPBgBncM3ApMrrNK8ruxSnttd59EQfKjEQ5gBAph8mgfdRlWZW', NULL, NULL, 'admin', '2024-12-09 17:57:43', '2024-12-13 18:29:07', 'sachi', 'leyesa', NULL, 'sa', 'sa', 'sa', '5200', '09123123123'),
-(35, 'newnew', 'new@gmail.com', '1a1d89babbb54b0366703be3c32f9f010040c0239b96ea6010079f989fdeacb83ded845af378d6b8ebd5b26188629202caee', '2024-12-13 11:29:07', '$2y$04$lK9Vhb7EyMK2m7t1K3X6Aeg3QIoSr2w3X2N5InS6AZk7nc8o/8SqK', NULL, NULL, 'user', '2024-12-09 17:58:06', '2024-12-13 18:29:07', 'nw', 'ew', NULL, 'malungay', 'nacoco', 'calapan', '5200', '09123129322'),
-(36, 'jnsspot', 'jnss@gmail.com', 'cc481598d49b889ab5580ef5eb237bcfbf77c6dbbeb635c8add82069c079f5bd1d69b3b60e0716310e77b97fc5ac54215bbb', '2024-12-13 11:29:07', '$2y$04$YUKW9zRjH3sXjMdQv72XXOqDQM4Dt.I5gd/7R0wlBSc3OH8GRb0CW', NULL, NULL, 'user', '2024-12-10 13:57:20', '2024-12-13 18:29:07', 'janss', 'martinez', NULL, 'nacoco', 'malungay', 'calapan', '5200', '98123123322'),
-(37, 'Angelo', 'jelocolocado@gmail.com', '4ee6a566e052fd7a4c0cd35104bd248604b1d1b38b4022133000ce707519e114a42c765f882a5ff82a25d5d9842fb0a9fa12', '2024-12-13 11:29:07', '$2y$04$HJfYCL0w5a0WjQTTr/DksuttcR3dhsn8bf9YlyyM2vj2b9y7l5Yv6', NULL, NULL, 'user', '2024-12-11 03:12:49', '2024-12-13 18:29:07', 'Angelo', 'Barbacena', NULL, 'balingayan', 'nacoco', 'calapan', '5200', '+639982863340'),
-(39, 'L4nszxc_09', 'lanslorence@gmail.com', 'b8b31a5f81717decd426f18b1e76687b8fb99bb3d63b13ff7ea93250bbd6b7a7328be7e8297a17e4cf716d175b980db64d68', '2024-12-13 11:29:07', '$2y$04$PWhnoAXKYT7L21xw.V/xAeGrhStb4YNshYBBf19p3D1qzczAnqdj.', NULL, NULL, 'user', '2024-12-13 18:29:03', '2024-12-13 18:29:07', 'Lans Lorence', 'Navarro Hernandez', NULL, 'Ibaba West', 'sa', 'Calapan City', '5200', '+639123123123');
+(33, 'jeromepogi', 'firedown1231@gmail.com', '17672ed0b51619c705e74079105c0679d29754bdae1dff35b2edd5191d42f141b3eacf49070c8a6d13cda70cbf124a7799c1', '2024-12-15 04:09:14', '$2y$04$HbJXVGQ.MKXNmpKsj4ynuebV7gjTt5ADBbXTu8FnNvXJuo8dLkLoq', NULL, NULL, 'user', '2024-12-09 17:56:39', '2024-12-15 11:09:14', 'jerome', 'martinez', NULL, 'malungay', 'nacoco', 'calapan', '5200', '09123129322'),
+(34, 'sachi', 'sachi@gmail.com', '75e5c1c48312b54fd394a8bdcfb5a3be41aa3da061c6ebf0528178eb104b71b0475a7cd17dc8ef9c8fde40a7b31f3c4e8812', '2024-12-15 04:09:14', '$2y$04$VlyoPBgBncM3ApMrrNK8ruxSnttd59EQfKjEQ5gBAph8mgfdRlWZW', NULL, NULL, 'admin', '2024-12-09 17:57:43', '2024-12-15 11:09:14', 'sachi', 'leyesa', NULL, 'sa', 'sa', 'sa', '5200', '09123123123'),
+(35, 'newnew', 'new@gmail.com', '1a1d89babbb54b0366703be3c32f9f010040c0239b96ea6010079f989fdeacb83ded845af378d6b8ebd5b26188629202caee', '2024-12-15 04:09:14', '$2y$04$lK9Vhb7EyMK2m7t1K3X6Aeg3QIoSr2w3X2N5InS6AZk7nc8o/8SqK', NULL, NULL, 'user', '2024-12-09 17:58:06', '2024-12-15 11:09:14', 'nw', 'ew', NULL, 'malungay', 'nacoco', 'calapan', '5200', '09123129322'),
+(36, 'jnsspot', 'jnss@gmail.com', 'cc481598d49b889ab5580ef5eb237bcfbf77c6dbbeb635c8add82069c079f5bd1d69b3b60e0716310e77b97fc5ac54215bbb', '2024-12-15 04:09:14', '$2y$04$YUKW9zRjH3sXjMdQv72XXOqDQM4Dt.I5gd/7R0wlBSc3OH8GRb0CW', NULL, NULL, 'user', '2024-12-10 13:57:20', '2024-12-15 11:09:14', 'janss', 'martinez', NULL, 'nacoco', 'malungay', 'calapan', '5200', '98123123322'),
+(37, 'Angelo', 'jelocolocado@gmail.com', '4ee6a566e052fd7a4c0cd35104bd248604b1d1b38b4022133000ce707519e114a42c765f882a5ff82a25d5d9842fb0a9fa12', '2024-12-15 04:09:14', '$2y$04$HJfYCL0w5a0WjQTTr/DksuttcR3dhsn8bf9YlyyM2vj2b9y7l5Yv6', NULL, NULL, 'user', '2024-12-11 03:12:49', '2024-12-15 11:09:14', 'Angelo', 'Barbacena', NULL, 'balingayan', 'nacoco', 'calapan', '5200', '+639982863340'),
+(42, 'L4nszxc_09', 'lanslorence@gmail.com', '766d34f6f0c37acf2216488155006b02281cb63bde0c29eb9ce0ba493365bf92cfaf132ca2b1009568c5a2e0eda81f06d49a', '2024-12-15 04:09:14', '$2y$04$XbmV4ZYeak7pGY7i.ZzqX.VxZVhKbvhzwWs6OrMAod3ceCXWtfHlq', NULL, NULL, 'user', '2024-12-15 11:09:03', '2024-12-15 11:09:14', 'Lans Lorence', 'Hernandez', NULL, 'Ibaba West', 'dsa', 'Calapan City', '5200', '09123123123');
 
 --
 -- Indexes for dumped tables
@@ -243,6 +242,13 @@ ALTER TABLE `appoint`
   ADD PRIMARY KEY (`appoint_id`),
   ADD KEY `service_id` (`service_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `cancelled_appointments`
+--
+ALTER TABLE `cancelled_appointments`
+  ADD PRIMARY KEY (`cancel_id`),
+  ADD KEY `service_id` (`service_id`);
 
 --
 -- Indexes for table `messages`
@@ -283,7 +289,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appoint`
 --
 ALTER TABLE `appoint`
-  MODIFY `appoint_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `appoint_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+
+--
+-- AUTO_INCREMENT for table `cancelled_appointments`
+--
+ALTER TABLE `cancelled_appointments`
+  MODIFY `cancel_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -301,13 +313,13 @@ ALTER TABLE `password_reset`
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `session_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `session_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- Constraints for dumped tables
@@ -319,6 +331,12 @@ ALTER TABLE `users`
 ALTER TABLE `appoint`
   ADD CONSTRAINT `appoint_ibfk_1` FOREIGN KEY (`service_id`) REFERENCES `services` (`service_id`),
   ADD CONSTRAINT `appoint_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `cancelled_appointments`
+--
+ALTER TABLE `cancelled_appointments`
+  ADD CONSTRAINT `cancelled_appointments_ibfk_1` FOREIGN KEY (`service_id`) REFERENCES `services` (`service_id`);
 
 --
 -- Constraints for table `messages`
