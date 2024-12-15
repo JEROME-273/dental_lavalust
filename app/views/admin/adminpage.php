@@ -60,17 +60,17 @@
                     <td><?= htmlspecialchars($appointment['service_name']) ?></td>
                     <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
                     <td>
-    <?php if ($appointment['status'] === 'Done'): ?>
-        <span class="badge bg-success">Completed</span>
-    <?php elseif ($appointment['status'] === 'Cancelled'): ?>
-        <span class="badge bg-danger">Cancelled</span>
-    <?php else: ?>
-        <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
-        <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
-        <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
-        <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button>
-    <?php endif; ?>
-</td>
+                    <?php if ($appointment['status'] === 'Done'): ?>
+                        <span class="badge bg-success">Completed</span>
+                    <?php elseif ($appointment['status'] === 'Cancelled'): ?>
+                        <span class="badge bg-danger">Cancelled</span>
+                    <?php else: ?>
+                        <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
+                        <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
+                        <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
+                        <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button>
+                    <?php endif; ?>
+                </td>
                 </tr>
             <?php 
                 endif;
@@ -113,17 +113,14 @@
                         <td><?= htmlspecialchars($appointment['service_name']) ?></td>
                         <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
                         <td>
-    <?php if ($appointment['status'] === 'Done'): ?>
-        <span class="badge bg-success">Completed</span>
-    <?php elseif ($appointment['status'] === 'Cancelled'): ?>
-        <span class="badge bg-danger">Cancelled</span>
-    <?php else: ?>
-        <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
-        <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
-        <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
-        <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button>
-    <?php endif; ?>
-</td>
+                            <?php if ($appointment['status'] === 'Cancelled'): ?>
+                                <span class="badge bg-danger">Cancelled</span>
+                            <?php else: ?>
+                                <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
+                                <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
+                                <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button>
+                            <?php endif; ?>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
