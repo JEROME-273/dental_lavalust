@@ -28,8 +28,6 @@
             <input type="text" id="searchInput" class="form-control" placeholder="Search appointments...">
         </div>
 
-        <!-- Today's Appointments -->
-        <!-- Today's Appointments -->
 <h4>Today's Appointments</h4>
 <div class="table-responsive">
     <table class="table">

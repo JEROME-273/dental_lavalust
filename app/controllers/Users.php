@@ -142,6 +142,22 @@ class Users extends Controller {
         echo json_encode(['count' => $count]);
         exit;
     }
+    public function delete_appointment() {
+        if (!$this->lauth->is_logged_in()) {
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            return;
+        }
+    
+        $appoint_id = $this->io->post('appoint_id');
+        $user_id = $this->lauth->get_user_id();
+    
+        // Add method to Dental_uModel
+        if ($this->Dental_uModel->deleteAppointment($appoint_id, $user_id)) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to delete appointment']);
+        }
+    }
 
 }
 

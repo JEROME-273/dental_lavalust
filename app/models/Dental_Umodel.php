@@ -191,6 +191,11 @@ class Dental_umodel extends Model {
     
         return empty($existing); // Return true if no existing record is found
     }
-    
+    public function deleteAppointment($appoint_id, $user_id) {
+        return $this->db->table('appoint')
+            ->where('appoint_id', $appoint_id)
+            ->where('user_id', $user_id)
+            ->delete();
+    }
 }
 ?>

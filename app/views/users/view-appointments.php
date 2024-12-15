@@ -16,30 +16,37 @@
                                 <th>Service</th>
                                 <th>Email</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($appointments as $appointment): ?>
-                                <tr>
-                                    <td><?= isset($appointment['appointment_date']) ? date('F d, Y', strtotime($appointment['appointment_date'])) : 'N/A' ?></td>
-                                    <td><?= isset($appointment['appointment_time']) ? date('h:i A', strtotime($appointment['appointment_time'])) : 'N/A' ?></td>
-                                    <td><?= htmlspecialchars($appointment['service_name']) ?></td>
-                                    <td><?= htmlspecialchars($appointment['email']) ?></td>
-                                    <td>
-                                        <span class="badge bg-<?php 
-                                            echo match(strtolower($appointment['status'])) {
-                                                'pending' => 'warning',
-                                                'done' => 'success',
-                                                'postponed' => 'danger',
-                                                'follow up' => 'info',
-                                                default => 'secondary'
-                                            };
-                                        ?>">
-                                            <?= htmlspecialchars($appointment['status']) ?>
-                                        </span>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($appointments as $appointment): ?>
+                                    <tr>
+                                        <td><?= isset($appointment['appointment_date']) ? date('F d, Y', strtotime($appointment['appointment_date'])) : 'N/A' ?></td>
+                                        <td><?= isset($appointment['appointment_time']) ? date('h:i A', strtotime($appointment['appointment_time'])) : 'N/A' ?></td>
+                                        <td><?= htmlspecialchars($appointment['service_name']) ?></td>
+                                        <td><?= htmlspecialchars($appointment['email']) ?></td>
+                                        <td>
+                                            <span class="badge bg-<?php 
+                                                echo match(strtolower($appointment['status'])) {
+                                                    'pending' => 'warning',
+                                                    'done' => 'success',
+                                                    'postponed' => 'danger',
+                                                    'follow up' => 'info',
+                                                    default => 'secondary'
+                                                };
+                                            ?>">
+                                                <?= htmlspecialchars($appointment['status']) ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm delete-appointment" 
+                                                    data-appointment-id="<?= $appointment['appoint_id'] ?>">
+                                                <i class="bi bi-x-circle"></i> Cancel
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -52,5 +59,38 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-appointment').forEach(button => {
+        button.addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this appointment?')) {
+                const appointmentId = this.getAttribute('data-appointment-id');
+                
+                fetch('<?= site_url('delete-appointment') ?>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'appoint_id=' + appointmentId
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the row from the table
+                        this.closest('tr').remove();
+                        alert('Appointment deleted successfully');
+                    } else {
+                        alert(data.message || 'Failed to delete appointment');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the appointment');
+                });
+            }
+        });
+    });
+});
+</script>
 
 <?php include APP_DIR.'views/includes/users/footer.php'; ?>
