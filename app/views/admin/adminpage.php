@@ -60,15 +60,17 @@
                     <td><?= htmlspecialchars($appointment['service_name']) ?></td>
                     <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
                     <td>
-                        <?php if ($appointment['status'] !== 'Done'): ?>
-                            <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
-                            <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
-                            <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
-                            <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button> <!-- Cancel button -->
-                        <?php else: ?>
-                            <span class="badge bg-success">Completed</span>
-                        <?php endif; ?>
-                    </td>
+    <?php if ($appointment['status'] === 'Done'): ?>
+        <span class="badge bg-success">Completed</span>
+    <?php elseif ($appointment['status'] === 'Cancelled'): ?>
+        <span class="badge bg-danger">Cancelled</span>
+    <?php else: ?>
+        <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
+        <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
+        <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
+        <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button>
+    <?php endif; ?>
+</td>
                 </tr>
             <?php 
                 endif;
@@ -111,14 +113,17 @@
                         <td><?= htmlspecialchars($appointment['service_name']) ?></td>
                         <td><span id="status-<?= $appointment['appoint_id'] ?>"><?= htmlspecialchars($appointment['status']) ?></span></td>
                         <td>
-                            <?php if ($appointment['status'] !== 'Done'): ?>
-                                <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
-                                <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
-                                <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button> <!-- Cancel button -->
-                            <?php else: ?>
-                                <span class="badge bg-success">Completed</span>
-                            <?php endif; ?>
-                        </td>
+    <?php if ($appointment['status'] === 'Done'): ?>
+        <span class="badge bg-success">Completed</span>
+    <?php elseif ($appointment['status'] === 'Cancelled'): ?>
+        <span class="badge bg-danger">Cancelled</span>
+    <?php else: ?>
+        <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
+        <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
+        <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
+        <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button>
+    <?php endif; ?>
+</td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -148,44 +153,50 @@
             });
 
             $(document).on('click', '.update-status', function() {
-                var appointmentId = $(this).data('id');
-                var status = $(this).data('status');
-                var buttonCell = $(this).closest('td');
+            var appointmentId = $(this).data('id');
+            var status = $(this).data('status');
+            var buttonCell = $(this).closest('td');
 
-                if (status === 'Done' && !confirm('Are you sure you want to mark this appointment as done?')) {
-                    return;
-                }
+            if (status === 'Done' && !confirm('Are you sure you want to mark this appointment as done?')) {
+                return;
+            }
 
-                $.ajax({
-                    url: '<?= site_url('admin/update_status') ?>',
-                    type: 'POST',
-                    data: {
-                        id: appointmentId,
-                        status: status
-                    },
-                    success: function(response) {
-                        try {
-                            var res = JSON.parse(response);
-                            if (res.status === 'success') {
-                                $('#status-' + appointmentId).text(status);
-                                if (status === 'Done') {
-                                    buttonCell.html('<span class="badge bg-success">Completed</span>');
-                                }
-                            } else {
-                                alert(res.message || 'Error updating status');
+            if (status === 'Cancelled' && !confirm('Are you sure you want to cancel this appointment?')) {
+                return;
+            }
+
+            $.ajax({
+                url: '<?= site_url('admin/update_status') ?>',
+                type: 'POST',
+                data: {
+                    id: appointmentId,
+                    status: status
+                },
+                success: function(response) {
+                    try {
+                        var res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            $('#status-' + appointmentId).text(status);
+                            if (status === 'Done') {
+                                buttonCell.html('<span class="badge bg-success">Completed</span>');
+                            } else if (status === 'Cancelled') {
+                                buttonCell.html('<span class="badge bg-danger">Cancelled</span>');
                             }
-                        } catch (e) {
-                            console.error('Parse error:', e);
-                            alert('Already updated');
+                        } else {
+                            alert(res.message || 'Error updating status');
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('AJAX error:', error);
-                        alert('Error updating the status');
+                    } catch (e) {
+                        console.error('Parse error:', e);
+                        alert('Already updated');
                     }
-                });
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                    alert('Error updating the status');
+                }
             });
         });
+    });
     </script>
 </body>
 </html>
