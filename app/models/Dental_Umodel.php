@@ -37,11 +37,21 @@ class Dental_umodel extends Model {
     }
 
     // Update the appointment status
+    // Update the appointment status
     public function updateAppointmentStatus($appointmentId, $status) {
         $data = array('status' => $status);
-        return $this->db->table('appoint')
+        $result = $this->db->table('appoint')
             ->where('appoint_id', $appointmentId)
             ->update($data);
+    
+        // Check if the update was successful
+        if ($result) {
+            return true;
+        } else {
+            // Log the SQL error for debugging
+            error_log("SQL Error: " . $this->db->getLastError());
+            return false;
+        }
     }
 
     public function getAllUsers() {

@@ -63,7 +63,7 @@ $database['main'] = array(
     'port'		=> '3306',
     'username'	=> 'root',
     'password'	=> '',
-    'database'	=> 'lavaui3',
+    'database'	=> 'lavaui2',
     'charset'	=> 'utf8mb4',
     'dbprefix'	=> '',
 );
