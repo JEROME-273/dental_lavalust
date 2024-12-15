@@ -61,6 +61,9 @@
                         <a class="nav-link" href="<?=site_url('adminpage');?>"><i class="bi bi-calendar-check me-2"></i>Appointments</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="<?=site_url('cancelled-appointments');?>"><i class="bi bi-calendar-x me-2"></i>Cancelled</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="<?=site_url('feeds');?>"><i class="bi bi-chat-square-text me-2"></i>Feedbacks</a>
                     </li>
                 </ul>

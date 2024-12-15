@@ -80,5 +80,6 @@ $router->match('/users', 'admin::users', array('get', 'post'));
 $router->match('/feeds', 'admin::feeds', array('get', 'post'));
 $router->match('/admin/update_status', 'Admin::update_status', array('POST'));
 $router->get('/check-slots', 'Users::checkSlots');
+$router->get('/cancelled-appointments', 'Admin::cancelled_appointments');
 
 

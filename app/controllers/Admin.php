@@ -175,5 +175,18 @@ public function send_appointment_status_email($email, $name, $status, $appointme
     }
     return true;
 }
+public function cancelled_appointments() {
+    // Add error logging
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    
+    try {
+        $data['cancelled_appointments'] = $this->Dental_uModel->getCancelledAppointments();
+        $this->call->view('admin/cancelled_appointments', $data);
+    } catch (Exception $e) {
+        error_log("Error in cancelled_appointments: " . $e->getMessage());
+        echo "An error occurred: " . $e->getMessage();
+    }
+}
 }
 ?>

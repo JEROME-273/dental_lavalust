@@ -147,17 +147,57 @@ class Users extends Controller {
             echo json_encode(['success' => false, 'message' => 'Unauthorized']);
             return;
         }
-    
+
         $appoint_id = $this->io->post('appoint_id');
+        $reason = $this->io->post('reason');
         $user_id = $this->lauth->get_user_id();
-    
-        // Add method to Dental_uModel
-        if ($this->Dental_uModel->deleteAppointment($appoint_id, $user_id)) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to delete appointment']);
+
+        // Get appointment details before deletion
+        $appointment = $this->Dental_uModel->getAppointmentById($appoint_id);
+        
+        if (!$appointment) {
+            echo json_encode(['success' => false, 'message' => 'Appointment not found']);
+            return;
+        }
+
+        // Start transaction
+        $this->db->transaction();
+
+        try {
+            // Insert into cancelled_appointments
+            $cancelled_data = array(
+                'appoint_id' => $appoint_id,
+                'user_id' => $user_id,
+                'fname' => $appointment['fname'],
+                'lname' => $appointment['lname'],
+                'email' => $appointment['email'],
+                'appointment_date' => $appointment['appointment_date'],
+                'appointment_time' => $appointment['appointment_time'],
+                'service_id' => $appointment['service_id'],
+                'cancellation_reason' => $reason
+            );
+
+            $inserted = $this->Dental_uModel->insertCancelledAppointment($cancelled_data);
+            
+            if ($inserted) {
+                // Delete from appointments
+                $deleted = $this->Dental_uModel->deleteAppointment($appoint_id, $user_id);
+                
+                if ($deleted) {
+                    $this->db->commit();
+                    echo json_encode(['success' => true]);
+                    return;
+                }
+            }
+
+            $this->db->roll_back();
+            echo json_encode(['success' => false, 'message' => 'Failed to process cancellation']);
+        } catch (Exception $e) {
+            $this->db->roll_back();
+            echo json_encode(['success' => false, 'message' => 'An error occurred']);
         }
     }
+    
 
 }
 

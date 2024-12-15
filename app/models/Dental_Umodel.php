@@ -197,5 +197,26 @@ class Dental_umodel extends Model {
             ->where('user_id', $user_id)
             ->delete();
     }
+    public function insertCancelledAppointment($data) {
+        return $this->db->table('cancelled_appointments')->insert($data);
+    }
+    public function getCancelledAppointments() {
+        try {
+            $result = $this->db->table('cancelled_appointments')
+                ->select('cancelled_appointments.*, services.service_name')
+                ->join('services', 'cancelled_appointments.service_id = services.service_id')
+                ->order_by('cancelled_at', 'DESC')
+                ->get_all();
+            
+            if ($result === false) {
+                error_log("Database error in getCancelledAppointments: " . $this->db->error());
+            }
+            
+            return $result;
+        } catch (Exception $e) {
+            error_log("Error in getCancelledAppointments: " . $e->getMessage());
+            return array();
+        }
+    }
 }
 ?>
