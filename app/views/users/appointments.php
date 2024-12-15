@@ -215,30 +215,30 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // appointmentDateInput.addEventListener('input', function() {
-    //     const selectedDate = new Date(this.value);
-    //     appointmentTimeSelect.value = '';
+    appointmentDateInput.addEventListener('input', function() {
+        const selectedDate = new Date(this.value);
+        appointmentTimeSelect.value = '';
         
-    //     if (selectedDate.getDay() === 0) {
-    //         alert('Sorry, we are closed on Sundays. Please select another day.');
-    //         this.value = '';
-    //         slotsAvailableDiv.style.display = 'none';
-    //         return;
-    //     }
+        if (selectedDate.getDay() === 0) {
+            alert('Sorry, we are closed on Sundays. Please select another day.');
+            this.value = '';
+            slotsAvailableDiv.style.display = 'none';
+            return;
+        }
 
-    //     if (this.value < formattedToday) {
-    //         alert('Please select a future date.');
-    //         this.value = '';
-    //         slotsAvailableDiv.style.display = 'none';
-    //         return;
-    //     }
+        if (this.value < formattedToday) {
+            alert('Please select a future date.');
+            this.value = '';
+            slotsAvailableDiv.style.display = 'none';
+            return;
+        }
 
-    //     if (this.value) {
-    //         checkAvailableSlots(this.value);
-    //     } else {
-    //         slotsAvailableDiv.style.display = 'none';
-    //     }
-    // });
+        if (this.value) {
+            checkAvailableSlots(this.value);
+        } else {
+            slotsAvailableDiv.style.display = 'none';
+        }
+    });
 
     appointmentForm.addEventListener('submit', function(e) {
         if (!appointmentDateInput.value || !appointmentTimeSelect.value) {
