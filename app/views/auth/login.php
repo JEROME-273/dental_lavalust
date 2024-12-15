@@ -159,7 +159,7 @@
                         },
                         password: {
                             required: true,
-                            minlength: 8
+                            minlength: 2
                         }
                     },
                     messages: {
@@ -169,7 +169,7 @@
                         },
                         password: {
                             required: "Please input your password.",
-                            minlength: "Password must be at least 8 characters long."
+                            minlength: "Password must be at least 2 characters long."
                         }
                     }
                 });

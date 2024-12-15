@@ -168,7 +168,7 @@
                                 </div>
                                 <div class="input-group">
                                     <i class="bi bi-lock-fill"></i>
-                                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
+                                    <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password" required>
                                 </div>
                             </div>
 

@@ -1,7 +1,7 @@
 <?php
 defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
-class Dental_uModel extends Model {
+class Dental_umodel extends Model {
     // Creating a message
     public function create_mess($fullname, $email, $contact_number, $concern) {
         $data = array(
@@ -77,21 +77,6 @@ class Dental_uModel extends Model {
         }
     
         return $query->get_all();
-    }
-    
-    public function getTotalPatients() {
-        // Try using get() or select() instead of result()
-        $patients = $this->db->table('appoint')->get();
-        
-        // If get() doesn't work, try:
-        // $patients = $this->db->select('*')->from('appoint')->get();
-        
-        // Check if the query was successful
-        if ($patients) {
-            return count($patients);
-        }
-        
-        return 0; // Return 0 if no patients found
     }
 
     public function getPatientsPerMonth() {
@@ -188,5 +173,14 @@ class Dental_uModel extends Model {
         $appointments = $this->db->table('appoint')->get_all();
         return count($appointments);
     }
+    public function isTimeSlotAvailable($appointment_date, $appointment_time) {
+        $existing = $this->db->table('appoint')
+            ->where('appointment_date', $appointment_date)
+            ->where('appointment_time', $appointment_time)
+            ->get();
+    
+        return empty($existing); // Return true if no existing record is found
+    }
+    
 }
 ?>

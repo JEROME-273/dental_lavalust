@@ -69,22 +69,37 @@ class Auth extends Controller {
         redirect('auth/login');
     }
 
+    // private function send_verification_email($email, $email_token) {
+    //     $verification_link = base_url() . 'auth/verify_email?token=' . $email_token;
+    
+    //     $email_body = "
+    //         Hi,
+    //         Please verify your email by clicking on the link below:
+    //         $verification_link
+    //         If you did not request this, please ignore this email.
+    //     ";
+    
+    //     $this->email->recipient($email);
+    //     $this->email->subject('Verify Your Email');
+    //     $this->email->sender('dentalclinic@gmail.com');
+    //     $this->email->email_content($email_body, 'text');
+    //     $this->email->send();
+    // }
+
     private function send_verification_email($email, $email_token) {
-        $verification_link = base_url() . 'auth/verify_email?token=' . $email_token;
-    
-        $email_body = "
-            Hi,
-            Please verify your email by clicking on the link below:
-            $verification_link
-            If you did not request this, please ignore this email.
-        ";
-    
+        $template = file_get_contents(ROOT_DIR.PUBLIC_DIR.'/templates/verify_email.html');
+        $search = array('{token}', '{base_url}');
+        $replace = array($email_token, base_url());
+        $template = str_replace($search, $replace, $template);
+        
         $this->email->recipient($email);
-        $this->email->subject('Verify Your Email');
-        $this->email->sender('dentalclinic@gmail.com');
-        $this->email->email_content($email_body, 'text');
+        $this->email->subject('Email Verification'); // Change based on subject
+        $this->email->sender('noreply@example.com'); // Change based on sender email
+        $this->email->reply_to('support@example.com'); // Change based on reply-to email
+        $this->email->email_content($template, 'html');
         $this->email->send();
     }
+    
     
 
     public function register() {
@@ -103,7 +118,7 @@ class Auth extends Controller {
     
             $this->form_validation
                 ->name('username')->required()->is_unique('users', 'username', $username, 'Username was already taken.')
-                ->name('password')->required()->min_length(8, 'Password must not be less than 8 characters.')
+                ->name('password')->required()->min_length(5, 'Password must not be less than 5 characters.')
                 ->name('password_confirmation')->required()->matches('password', 'Passwords did not match.')
                 ->name('email')->required()->is_unique('users', 'email', $email, 'Email was already taken.');
     

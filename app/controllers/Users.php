@@ -16,10 +16,17 @@ class Users extends Controller {
     }
     
     public function create_appoint() {
-        if($this->form_validation->submitted()) {
+        if ($this->form_validation->submitted()) {
             $appointment_date = $this->io->post('appointment_date');
             $appointment_time = $this->io->post('appointment_time');
             
+            // Check if the time slot is available
+            if (!$this->Dental_uModel->isTimeSlotAvailable($appointment_date, $appointment_time)) {
+                set_flash_alert('danger', 'The selected time slot is already booked. Please choose another time.');
+                redirect('appointment');
+                return;
+            }
+    
             $data = array(
                 'user_id' => $this->lauth->get_user_id(),
                 'fname' => $this->io->post('first_name'),
@@ -35,7 +42,7 @@ class Users extends Controller {
     
             if ($this->Dental_uModel->makeAppoint($data)) {
                 set_flash_alert('success', 'Appointment Set!');
-                redirect('home');
+                redirect('appointment');
             } else {
                 set_flash_alert('danger', 'Failed to create appointment');
                 redirect('appointment');
@@ -43,15 +50,13 @@ class Users extends Controller {
         }
     }
     
+    
     public function service(){
         $this->call->view('users/services');
     }
     public function consult(){
         $this->call->view('users/eConsultation');
     }
-    // public function feed(){
-    //     $this->call->view('users/feedback');
-    // }
     public function faqs(){
         $this->call->view('users/FAQs');
     }
@@ -128,6 +133,7 @@ class Users extends Controller {
         $data['appointments'] = $this->Dental_uModel->getUserAppointments($user_id);
         $this->call->view('users/view-appointments', $data);
     }
+    
     public function checkSlots() {
         $date = $this->io->get('date');
         $count = $this->Dental_uModel->getAppointmentCountForDate($date);
