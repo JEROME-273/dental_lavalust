@@ -133,7 +133,6 @@
         <span class="badge bg-danger">Cancelled</span>
     <?php else: ?>
         <div class="btn-group" role="group">
-            <button class="btn btn-success btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Done">Done</button>
             <button class="btn btn-warning btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Postponed">Postponed</button>
             <button class="btn btn-info btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Follow Up">Follow Up</button>
             <button class="btn btn-danger btn-sm update-status" data-id="<?= $appointment['appoint_id'] ?>" data-status="Cancelled">Cancel</button>
@@ -184,23 +183,27 @@
                         status: status
                     },
                     success: function(response) {
-    try {
-        var res = JSON.parse(response);
-        if (res.status === 'success') {
-            $('#status-' + appointmentId).text(status);
-            if (status === 'Done') {
-                buttonCell.html('<span class="badge bg-success">Completed</span>');
-            } else if (status === 'Cancelled') {
-                buttonCell.html('<span class="badge bg-danger">Cancelled</span>');
-            }
-        } else {
-            alert(res.message || 'Error updating status');
-        }
-    } catch (e) {
-        console.error('Parse error:', e);
-        alert('Error processing response');
-    }
-},
+                        try {
+                            var res = JSON.parse(response);
+                            if (res.status === 'success') {
+                                // Update both instances of the status span
+                                $('span[id="status-' + appointmentId + '"]').text(status);
+                                
+                                // Update both instances of the button cell
+                                var allButtonCells = $('td').has('button[data-id="' + appointmentId + '"]');
+                                if (status === 'Done') {
+                                    allButtonCells.html('<span class="badge bg-success">Completed</span>');
+                                } else if (status === 'Cancelled') {
+                                    allButtonCells.html('<span class="badge bg-danger">Cancelled</span>');
+                                }
+                            } else {
+                                alert(res.message || 'Error updating status');
+                            }
+                        } catch (e) {
+                            console.error('Parse error:', e);
+                            alert('Error processing response');
+                        }
+                    },
                     error: function(xhr, status, error) {
                         console.error('AJAX error:', error);
                         alert('Error updating the status');
