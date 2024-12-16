@@ -17,23 +17,28 @@ class Admin extends Controller {
         return $this->lauth->get_user_role($user_id) === 'admin';
     }
 
+    // Add this new method to get today's appointments
+public function getTodayAppointments() {
+    return $this->db->table('appoint')
+        ->select('appoint.*, services.service_name')
+        ->join('services', 'appoint.service_id = services.service_id')
+        ->where('DATE(appointment_date)', date('Y-m-d'))
+        ->get_all();
+}
     // Dashboard for Admin
     public function index() {
-        // Get search values from the POST request
         $search_patient = isset($_POST['search_patient']) ? $_POST['search_patient'] : '';
         $search_service = isset($_POST['search_service']) ? $_POST['search_service'] : '';
         $search_status = isset($_POST['search_status']) ? $_POST['search_status'] : '';
     
-        // Pass the search parameters to the model
-        $appointments = $this->Dental_uModel->getAppointments($search_patient, $search_service, $search_status);
-        
-        // Pass the appointments and search values to the view
-        $this->call->view('admin/adminpage', [
-            'appointments' => $appointments,
+        $data = [
+            'appointments' => $this->Dental_uModel->getAppointments($search_patient, $search_service, $search_status),
             'search_patient' => $search_patient,
             'search_service' => $search_service,
             'search_status' => $search_status
-        ]);
+        ];
+    
+        $this->call->view('admin/adminpage', $data);
     }
     
 
@@ -79,15 +84,8 @@ public function update_status() {
         // Get appointment details before updating
         $appointment = $this->Dental_uModel->getAppointmentById($appointmentId);
 
-        // Check if the appointment exists
-        if (!$appointment) {
-            echo json_encode(['status' => 'error', 'message' => 'Appointment not found.']);
-            return;
-        }
-
-        // Update the appointment status
         if ($this->Dental_uModel->updateAppointmentStatus($appointmentId, $status)) {
-            // Send email notification for all statuses
+            // Send email notification
             $email_sent = $this->send_appointment_status_email(
                 $appointment['email'],
                 $appointment['fname'] . ' ' . $appointment['lname'],
@@ -105,12 +103,8 @@ public function update_status() {
             }
             echo json_encode($response);
         } else {
-            // Log the error for debugging
-            error_log("Failed to update appointment status for ID: $appointmentId");
             echo json_encode(['status' => 'error', 'message' => 'Error updating appointment status.']);
         }
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
     }
 }
     
